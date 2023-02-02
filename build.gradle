@@ -25,9 +25,15 @@ dependencies {
 	// DB
 	runtimeOnly 'com.h2database:h2'
 
+	//web token
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
+
 	// test
 	testImplementation 'org.projectlombok:lombok:1.18.22'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// view test
+	implementation 'org.springframework.boot:spring-boot-starter-mustache'
 }
 
 tasks.named('test') {
