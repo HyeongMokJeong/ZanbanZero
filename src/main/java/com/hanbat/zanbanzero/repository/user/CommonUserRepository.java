@@ -15,10 +15,5 @@ public interface CommonUserRepository extends JpaRepository<CommonUser, Long> {
         nativeQuery = true)
     boolean doubleCheckUserId(@Param("userId") String userId);
 
-    @Query(value =
-            "SELECT * " +
-            "FROM common_user " +
-            "WHERE user_id = :userId",
-        nativeQuery = true)
     CommonUser findByUserId(@Param("userId") String userId);
 }
