@@ -15,6 +15,10 @@ import lombok.ToString;
 public class CommonUser {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
     private String userId;
 
     @Column
@@ -25,6 +29,7 @@ public class CommonUser {
 
     public static CommonUser createCommonUser(CommonUserDto dto) {
         return new CommonUser(
+                dto.getId(),
                 dto.getUserId(),
                 dto.getPassword(),
                 dto.getNickname()
