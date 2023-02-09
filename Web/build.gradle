@@ -30,6 +30,9 @@ dependencies {
 	// JWT
 	implementation group: 'com.auth0', name: 'java-jwt', version: '3.10.3'
 
+	//
+	implementation 'commons-io:commons-io:2.11.0'
+
 
 	// test
 	testImplementation 'org.projectlombok:lombok:1.18.22'

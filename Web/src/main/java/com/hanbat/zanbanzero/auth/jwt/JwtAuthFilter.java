@@ -2,10 +2,9 @@ package com.hanbat.zanbanzero.auth.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.hanbat.zanbanzero.Entity.user.User;
 import com.hanbat.zanbanzero.auth.PrincipalDetails;
-import com.hanbat.zanbanzero.exception.filter.SetFilterException;
 import com.hanbat.zanbanzero.repository.user.UserRepository;
 import com.hanbat.zanbanzero.template.JwtTemplate;
 import jakarta.servlet.FilterChain;
@@ -18,7 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import java.io.IOException;
+import java.io.*;
 
 public class JwtAuthFilter extends BasicAuthenticationFilter {
     
@@ -35,21 +34,16 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
         String jwtHeader = request.getHeader(JwtTemplate.HEADER_STRING);
 
         // JWT(Header)가 있는지 확인
-        if (jwtHeader == null || !jwtHeader.startsWith(JwtTemplate.TOKEN_PREFIX)) {
-            SetFilterException.setResponse(request, response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "잘못된 토큰입니다.");
-            return;
+        if ((jwtHeader == null || !jwtHeader.startsWith(JwtTemplate.TOKEN_PREFIX)) && !request.getRequestURI().toString().equals("/api/join")) {
+            throw new IOException();
         }
+
 
         // JWT 검증
-        String jwtToken = request.getHeader(JwtTemplate.HEADER_STRING).replace(JwtTemplate.TOKEN_PREFIX, "");
+        String jwtToken = jwtHeader.replace(JwtTemplate.TOKEN_PREFIX, "");
 
-        String username = null;
-        try {
-            username = JWT.require(Algorithm.HMAC256(JwtTemplate.SECRET)).build().verify(jwtToken).getClaim("username").asString();
-        }
-        catch (TokenExpiredException e) {
-            SetFilterException.setResponse(request, response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "만료된 토큰입니다.");
-        }
+        String username = JWT.require(Algorithm.HMAC256(JwtTemplate.SECRET)).build().verify(jwtToken).getClaim("username").asString();
+
         if (username != null) {
             User userEntity = userRepository.findByUsername(username);
 
