@@ -18,6 +18,7 @@ public class Menu {
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "store_id")
     private Store store;
 
     private String name;

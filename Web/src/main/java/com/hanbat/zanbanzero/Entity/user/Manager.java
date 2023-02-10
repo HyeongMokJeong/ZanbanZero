@@ -1,8 +1,6 @@
 package com.hanbat.zanbanzero.Entity.user;
 
-import com.hanbat.zanbanzero.Entity.store.Store;
-import com.hanbat.zanbanzero.dto.user.AdminUserDto;
-import com.hanbat.zanbanzero.dto.user.UserDto;
+import com.hanbat.zanbanzero.dto.user.ManagerDto;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,7 +12,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminUser {
+public class Manager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,18 +22,13 @@ public class AdminUser {
     private String nickname;
     private String roles;
 
-    @OneToOne
-    @MapsId
-    private Store store;
-
-    public static AdminUser createAdminUser(AdminUserDto dto) {
-        return new AdminUser(
+    public static Manager createAdminUser(ManagerDto dto) {
+        return new Manager(
                 dto.getId(),
                 dto.getUsername(),
                 dto.getPassword(),
                 dto.getNickname(),
-                dto.getRoles(),
-                dto.getStore()
+                dto.getRoles()
         );
     }
 }

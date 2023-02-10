@@ -2,6 +2,7 @@ package com.hanbat.zanbanzero.service;
 
 import com.hanbat.zanbanzero.Entity.user.User;
 import com.hanbat.zanbanzero.auth.jwt.JwtUtil;
+import com.hanbat.zanbanzero.dto.user.ManagerDto;
 import com.hanbat.zanbanzero.dto.user.UserDto;
 import com.hanbat.zanbanzero.repository.user.UserRepository;
 import com.hanbat.zanbanzero.template.JwtTemplate;
@@ -52,5 +53,9 @@ public class UserService {
         result.setPassword(null);
 
         return result;
+    }
+
+    public ManagerDto loginToManager() {
+        return null;
     }
 }

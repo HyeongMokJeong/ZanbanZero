@@ -8,11 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class AdminUserDto {
+public class ManagerDto {
     private Long id;
     private String username;
     private String password;
     private String nickname;
     private String roles;
-    private Store store;
+    private Long store_id;
 }
