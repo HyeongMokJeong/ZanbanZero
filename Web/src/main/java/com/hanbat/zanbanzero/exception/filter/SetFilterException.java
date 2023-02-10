@@ -2,19 +2,22 @@ package com.hanbat.zanbanzero.exception.filter;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Date;
 
 public class SetFilterException {
 
-    public static void setResponse(HttpServletRequest request, HttpServletResponse response, int status, String message) {
+    public static void setResponse(HttpServletRequest request, HttpServletResponse response, HttpStatus status, String message) {
         ObjectMapper objectMapper = new ObjectMapper();
-        FilterExceptionTemplate filterExceptionTemplate = new FilterExceptionTemplate(new Date().toString(), message, request.getRequestURI(), status);
+        FilterExceptionTemplate filterExceptionTemplate = new FilterExceptionTemplate(new Date().toString(), message, request.getRequestURI(), status.value());
         String result;
-        response.setStatus(status);
+        response.setStatus(status.value());
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -25,7 +28,8 @@ public class SetFilterException {
             throw new RuntimeException(ex);
         }
         try {
-            response.getWriter().write(result);
+            PrintWriter printWriter = response.getWriter();
+            printWriter.write(result);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
         }

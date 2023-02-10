@@ -15,8 +15,10 @@ public class UserDto {
     private String nickname;
     private String roles;
 
-    public UserDto(String username) {
+    public UserDto(String username, String password, String roles) {
         this.username = username;
+        this.password = password;
+        this.roles = roles;
     }
 
     public UserDto(String username, String password) {

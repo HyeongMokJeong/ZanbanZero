@@ -2,8 +2,8 @@ package com.hanbat.zanbanzero.config;
 
 import com.hanbat.zanbanzero.auth.jwt.JwtAuthFilter;
 import com.hanbat.zanbanzero.auth.jwt.JwtLoginFilter;
-import com.hanbat.zanbanzero.auth.jwt.JwtUtil;
-import com.hanbat.zanbanzero.exception.controller.CustomAuthenticationEntryPoint;
+import com.hanbat.zanbanzero.exception.filter.ExceptionHandlerBeforeBasicAuthentication;
+import com.hanbat.zanbanzero.exception.filter.ExceptionHandlerBeforeUsernamePassword;
 import com.hanbat.zanbanzero.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,17 +13,18 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @RequiredArgsConstructor
 public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final UserRepository userRepository;
     private final CorsFilter corsFilter;
-    private final JwtUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -32,14 +33,13 @@ public class SecurityConfig {
                 .and()
                 .addFilter(corsFilter)
                 .formLogin().disable()
-                .httpBasic().disable()
-                .exceptionHandling().authenticationEntryPoint(new CustomAuthenticationEntryPoint())
-                .and()
+                .addFilterBefore(new ExceptionHandlerBeforeUsernamePassword(), UsernamePasswordAuthenticationFilter.class)
                 .addFilter(new JwtLoginFilter(authenticationConfiguration.getAuthenticationManager()))
+                .addFilterBefore(new ExceptionHandlerBeforeBasicAuthentication(), BasicAuthenticationFilter.class)
                 .addFilter(new JwtAuthFilter(authenticationConfiguration.getAuthenticationManager(), userRepository))
                 .authorizeHttpRequests()
-                .requestMatchers("/api/user/**").hasAnyRole("USER", "MANAGER")
-                .requestMatchers("/api/manager/**").hasRole("MANAGER")
+                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/manager/**").hasAnyRole("MANAGER", "ADMIN")
                 .anyRequest().permitAll();
 
         return http.build();

@@ -28,6 +28,7 @@ out/
 
 ### Web Backend ###
 JwtTemplate.java
+application-env.properties
 
 ### NetBeans ###
 /nbproject/private/

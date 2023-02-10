@@ -1,18 +1,18 @@
 package com.hanbat.zanbanzero.auth.jwt;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanbat.zanbanzero.Entity.user.User;
 import com.hanbat.zanbanzero.auth.PrincipalDetails;
+import com.hanbat.zanbanzero.dto.user.UserDto;
 import com.hanbat.zanbanzero.exception.filter.SetFilterException;
 import com.hanbat.zanbanzero.template.JwtTemplate;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,8 +20,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Date;
 
 // Security Session > Security ContextHolder : Authentication > UserDetails
 @RequiredArgsConstructor
@@ -32,28 +30,21 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         ObjectMapper objectMapper = new ObjectMapper();
-        User user = null;
+        UserDto user = null;
 
         // request에서 username, password 받아서 user 객체 생성
         try {
-            user = objectMapper.readValue(request.getInputStream(), User.class);
+            user = objectMapper.readValue(request.getInputStream(), UserDto.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         // JWT 생성
-        UsernamePasswordAuthenticationToken authenticationToken =
-                new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
-        
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+
         // 로그인 시도 -> UserDetailsService(PrincipalDetailsService)의 loadUserByUsername 실행
         // DB의 username과 password가 일치하면 authentication 리턴됨
-        Authentication authentication = null;
-        try {
-            authentication = authenticationManager.authenticate(authenticationToken);
-        }
-        catch (NullPointerException e) {
-            SetFilterException.setResponse(request, response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"인증에 실패하였습니다.");
-        }
+        Authentication authentication= authenticationManager.authenticate(authenticationToken);
 
         // Spring의 권한 관리를 위해 return을 통해 세션에 저장
         return authentication;
@@ -72,6 +63,6 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) {
-        SetFilterException.setResponse(request, response, HttpServletResponse.SC_UNAUTHORIZED, "인증에 실패하였습니다.");
+        SetFilterException.setResponse(request, response, HttpStatus.UNAUTHORIZED, "인증에 실패하였습니다.");
     }
 }

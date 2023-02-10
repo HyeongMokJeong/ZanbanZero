@@ -1,5 +1,6 @@
 package com.hanbat.zanbanzero.exception.controller;
 
+import com.hanbat.zanbanzero.exception.controller.exceptions.JwtException;
 import com.hanbat.zanbanzero.exception.filter.FilterExceptionTemplate;
 import com.hanbat.zanbanzero.exception.controller.exceptions.SameUsernameException;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,10 +18,19 @@ import java.util.Date;
 @RestController
 @ControllerAdvice
 public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
+     HttpStatus status;
 
     @ExceptionHandler(SameUsernameException.class)
     public final ResponseEntity<Object> sameUsername(Exception ex, WebRequest request){
-        FilterExceptionTemplate exceptionResponse = new FilterExceptionTemplate(new Date().toString(), ex.getMessage(), ((ServletWebRequest)request).getRequest().getRequestURI(), HttpServletResponse.SC_CONFLICT);
-        return new ResponseEntity(exceptionResponse, HttpStatus.CONFLICT);
+        status = HttpStatus.CONFLICT;
+        FilterExceptionTemplate exceptionResponse = new FilterExceptionTemplate(new Date().toString(), ex.getMessage(), ((ServletWebRequest)request).getRequest().getRequestURI(), status.value());
+        return new ResponseEntity(exceptionResponse, status);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public final ResponseEntity<Object> jwt(Exception ex, WebRequest request){
+        status = HttpStatus.FORBIDDEN;
+        FilterExceptionTemplate exceptionResponse = new FilterExceptionTemplate(new Date().toString(), ex.getMessage(), ((ServletWebRequest)request).getRequest().getRequestURI(), status.value());
+        return new ResponseEntity(exceptionResponse, status);
     }
 }
