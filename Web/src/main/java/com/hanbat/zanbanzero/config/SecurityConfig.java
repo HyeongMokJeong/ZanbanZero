@@ -2,9 +2,8 @@ package com.hanbat.zanbanzero.config;
 
 import com.hanbat.zanbanzero.auth.jwt.JwtAuthFilter;
 import com.hanbat.zanbanzero.auth.jwt.JwtLoginFilter;
-import com.hanbat.zanbanzero.auth.jwt.JwtUtil;
-import com.hanbat.zanbanzero.filter.ExceptionHandlerBeforeBasicAuthentication;
-import com.hanbat.zanbanzero.filter.ExceptionHandlerBeforeUsernamePassword;
+import com.hanbat.zanbanzero.exception.filter.ExceptionHandlerBeforeBasicAuthentication;
+import com.hanbat.zanbanzero.exception.filter.ExceptionHandlerBeforeUsernamePassword;
 import com.hanbat.zanbanzero.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +39,7 @@ public class SecurityConfig {
                 .addFilterBefore(new ExceptionHandlerBeforeBasicAuthentication(), BasicAuthenticationFilter.class)
                 .addFilter(new JwtAuthFilter(authenticationConfiguration.getAuthenticationManager(), userRepository))
                 .authorizeHttpRequests()
-                .requestMatchers("/api/user/**").hasAnyRole("USER", "MANAGER", "ADMIN")
+                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/api/manager/**").hasAnyRole("MANAGER", "ADMIN")
                 .anyRequest().permitAll();
 

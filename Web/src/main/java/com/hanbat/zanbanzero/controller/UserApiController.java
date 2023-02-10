@@ -17,7 +17,7 @@ public class UserApiController {
     @Autowired
     private UserService userService;
 
-    @PostMapping("/api/join")
+    @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody UserDto dto, @RequestHeader("Authorization") String token) throws SameUsernameException, JwtException {
         int result = userService.join(dto, token);
         if (result == 0) {
@@ -34,11 +34,11 @@ public class UserApiController {
         return null;
     }
 
-    @GetMapping("/api/user/info")
+    @GetMapping("/api/userInfo")
     public ResponseEntity<UserDto> getInfo(@RequestBody UserDto dto, @RequestHeader("Authorization") String token) throws JwtException {
         UserDto user = userService.getInfo(dto, token);
         if (user == null) {
-            throw new JwtException("잘못된 접근입니다.");
+            throw new JwtException("유저명이 토큰의 이름과 다릅니다.");
         }
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }

@@ -1,4 +1,4 @@
-package com.hanbat.zanbanzero.filter;
+package com.hanbat.zanbanzero.exception.filter;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.hanbat.zanbanzero.exception.filter.SetFilterException;

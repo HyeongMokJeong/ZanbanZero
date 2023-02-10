@@ -1,4 +1,4 @@
-package com.hanbat.zanbanzero.filter;
+package com.hanbat.zanbanzero.exception.filter;
 
 import com.hanbat.zanbanzero.exception.filter.SetFilterException;
 import jakarta.servlet.FilterChain;
