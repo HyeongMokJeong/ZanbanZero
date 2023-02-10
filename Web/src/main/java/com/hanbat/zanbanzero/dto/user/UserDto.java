@@ -14,12 +14,7 @@ public class UserDto {
     private String password;
     private String nickname;
     private String roles;
-
-    public UserDto(String username, String password, String roles) {
-        this.username = username;
-        this.password = password;
-        this.roles = roles;
-    }
+    private Long storeId;
 
     public UserDto(String username, String password) {
         this.username = username;
@@ -32,7 +27,8 @@ public class UserDto {
                 entity.getUsername(),
                 entity.getPassword(),
                 entity.getNickname(),
-                entity.getRoles()
+                entity.getRoles(),
+                entity.getStoreId()
         );
     }
 }

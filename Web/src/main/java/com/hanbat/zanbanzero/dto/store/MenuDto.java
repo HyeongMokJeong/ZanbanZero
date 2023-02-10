@@ -1,7 +1,5 @@
 package com.hanbat.zanbanzero.dto.store;
 
-import com.hanbat.zanbanzero.Entity.store.Store;
-import jakarta.annotation.security.DenyAll;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
