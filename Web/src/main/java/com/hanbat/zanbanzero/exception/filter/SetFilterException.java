@@ -32,6 +32,7 @@ public class SetFilterException {
             printWriter.write(result);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
+        } catch (IllegalStateException e) {
         }
     }
 }

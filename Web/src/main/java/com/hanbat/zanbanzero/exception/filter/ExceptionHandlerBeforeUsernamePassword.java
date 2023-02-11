@@ -17,7 +17,8 @@ public class ExceptionHandlerBeforeUsernamePassword extends OncePerRequestFilter
             filterChain.doFilter(request, response);
         }
         catch (NullPointerException e) {
-            SetFilterException.setResponse(request, response, HttpStatus.INTERNAL_SERVER_ERROR,"인증에 실패하였습니다.");
+            if (!request.getRequestURI().toString().equals("/join"))
+                SetFilterException.setResponse(request, response, HttpStatus.INTERNAL_SERVER_ERROR,"인증에 실패하였습니다.");
         }
     }
 }
