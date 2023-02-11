@@ -2,13 +2,11 @@ package com.hanbat.zanbanzero.service;
 
 import com.hanbat.zanbanzero.Entity.user.User;
 import com.hanbat.zanbanzero.auth.jwt.JwtUtil;
-import com.hanbat.zanbanzero.dto.user.ManagerDto;
 import com.hanbat.zanbanzero.dto.user.UserDto;
 import com.hanbat.zanbanzero.repository.user.UserRepository;
 import com.hanbat.zanbanzero.template.JwtTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,6 +37,7 @@ public class UserService {
             return 0;
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles("ROLE_USER");
+        user.setStoreId(null);
         userRepository.save(user);
         return 1;
     }
@@ -53,9 +52,5 @@ public class UserService {
         result.setPassword(null);
 
         return result;
-    }
-
-    public ManagerDto loginToManager() {
-        return null;
     }
 }

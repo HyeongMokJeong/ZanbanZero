@@ -15,14 +15,11 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String username;
-
     private String password;
-
     private String nickname;
-
     private String roles;
+    private Long storeId;
 
     public static User createCommonUser(UserDto dto) {
         return new User(
@@ -30,7 +27,8 @@ public class User {
                 dto.getUsername(),
                 dto.getPassword(),
                 dto.getNickname(),
-                dto.getRoles()
+                dto.getRoles(),
+                dto.getStoreId()
         );
     }
 }
