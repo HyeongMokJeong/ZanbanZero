@@ -1,6 +1,8 @@
-insert into zanbanzero.user(nickname, password, roles, username) values ('user', '$2a$10$rb7fhQHdtxNf7RgTJVlERePH99.BqB6/i5LE61leYMh0vGOQoGbIC', 'ROLE_USER', 'user');
+insert into zanbanzero.user(nickname, password, roles, username, store_id) values ('user', '$2a$10$rb7fhQHdtxNf7RgTJVlERePH99.BqB6/i5LE61leYMh0vGOQoGbIC', 'ROLE_USER', 'user', null);
 insert into zanbanzero.user(nickname, password, roles, username, store_id) values ('manager', '$2a$10$rb7fhQHdtxNf7RgTJVlERePH99.BqB6/i5LE61leYMh0vGOQoGbIC', 'ROLE_MANAGER', 'manager', 1);
 insert into zanbanzero.user(nickname, password, roles, username, store_id) values ('manager2', '$2a$10$rb7fhQHdtxNf7RgTJVlERePH99.BqB6/i5LE61leYMh0vGOQoGbIC', 'ROLE_MANAGER', 'manager2', 2);
+insert into zanbanzero.user(nickname, password, roles, username, store_id) values ('admin', '$2a$10$rb7fhQHdtxNf7RgTJVlERePH99.BqB6/i5LE61leYMh0vGOQoGbIC', 'ROLE_ADMIN', 'admin', null);
+
 
 insert into zanbanzero.store(location, name) values (1, 'test store 1');
 insert into zanbanzero.store(location, name) values (2, 'test store 2');

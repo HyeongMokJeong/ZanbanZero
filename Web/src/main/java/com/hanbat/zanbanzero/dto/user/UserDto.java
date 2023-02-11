@@ -16,7 +16,6 @@ public class UserDto {
     private String roles;
     private Long storeId;
 
-
     public UserDto(String username, String password) {
         this.username = username;
         this.password = password;
