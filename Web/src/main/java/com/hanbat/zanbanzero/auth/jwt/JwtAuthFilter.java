@@ -34,7 +34,11 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
         String jwtHeader = request.getHeader(JwtTemplate.HEADER_STRING);
 
         // JWT(Header)가 있는지 확인
-        if ((jwtHeader == null || !jwtHeader.startsWith(JwtTemplate.TOKEN_PREFIX)) && !request.getRequestURI().toString().equals("/api/join")) {
+        if ((jwtHeader == null || !jwtHeader.startsWith(JwtTemplate.TOKEN_PREFIX))) {
+            if (request.getRequestURI().toString().equals("/join")) {
+                chain.doFilter(request, response);
+                return;
+            }
             throw new IOException();
         }
 

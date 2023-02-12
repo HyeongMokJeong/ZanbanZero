@@ -24,11 +24,7 @@ public class UserService {
     private JwtUtil jwtUtil = new JwtUtil();
 
     @Transactional
-    public int join(UserDto dto, String token) {
-        if (!token.equals(JwtTemplate.JOIN_TOKEN)) {
-            return 2;
-        }
-
+    public int join(UserDto dto) {
         // dto를 entity 오브젝트로 변환
         User user = User.createCommonUser(dto);
 
