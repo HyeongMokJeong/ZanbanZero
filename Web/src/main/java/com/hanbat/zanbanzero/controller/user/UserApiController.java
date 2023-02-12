@@ -1,20 +1,20 @@
-package com.hanbat.zanbanzero.controller;
+package com.hanbat.zanbanzero.controller.user;
 
 import com.hanbat.zanbanzero.exception.controller.exceptions.JwtException;
 import com.hanbat.zanbanzero.exception.filter.FilterExceptionTemplate;
 import com.hanbat.zanbanzero.dto.user.UserDto;
 import com.hanbat.zanbanzero.exception.controller.exceptions.SameUsernameException;
-import com.hanbat.zanbanzero.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hanbat.zanbanzero.service.user.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@RequiredArgsConstructor
 @RestController
 public class UserApiController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping("/join")
     public ResponseEntity<String> join(@RequestBody UserDto dto) throws SameUsernameException {
@@ -30,7 +30,7 @@ public class UserApiController {
         return null;
     }
 
-    @GetMapping("/api/userInfo")
+    @GetMapping("/api/user/info")
     public ResponseEntity<UserDto> getInfo(@RequestBody UserDto dto, @RequestHeader("Authorization") String token) throws JwtException {
         UserDto user = userService.getInfo(dto, token);
         if (user == null) {
@@ -38,4 +38,5 @@ public class UserApiController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
+
 }

@@ -1,4 +1,4 @@
-package com.hanbat.zanbanzero.service;
+package com.hanbat.zanbanzero.service.user;
 
 import com.hanbat.zanbanzero.Entity.user.User;
 import com.hanbat.zanbanzero.dto.user.UserDto;
