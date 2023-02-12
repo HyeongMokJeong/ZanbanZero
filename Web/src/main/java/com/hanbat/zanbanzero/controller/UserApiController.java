@@ -17,13 +17,10 @@ public class UserApiController {
     private UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<String> join(@RequestBody UserDto dto, @RequestHeader("Authorization") String token) throws SameUsernameException, JwtException {
-        int result = userService.join(dto, token);
+    public ResponseEntity<String> join(@RequestBody UserDto dto) throws SameUsernameException {
+        int result = userService.join(dto);
         if (result == 0) {
-            throw new SameUsernameException("중복된 ID 입니다.");
-        }
-        if (result == 2) {
-            throw new JwtException("잘못된 토큰입니다.");
+            throw new SameUsernameException("중복된 아이디입니다.");
         }
         return ResponseEntity.status(HttpStatus.OK).body("회원가입에 성공했습니다.");
     }
