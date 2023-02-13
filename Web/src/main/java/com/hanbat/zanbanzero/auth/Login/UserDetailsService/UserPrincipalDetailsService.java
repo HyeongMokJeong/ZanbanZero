@@ -1,6 +1,7 @@
-package com.hanbat.zanbanzero.auth;
+package com.hanbat.zanbanzero.auth.Login.UserDetailsService;
 
 import com.hanbat.zanbanzero.Entity.user.User;
+import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
 import com.hanbat.zanbanzero.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,13 +11,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class PrincipalDetailsService implements UserDetailsService {
+public class UserPrincipalDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username);
-        return new PrincipalDetails(user);
+        return new UserPrincipalDetails(user);
     }
 }

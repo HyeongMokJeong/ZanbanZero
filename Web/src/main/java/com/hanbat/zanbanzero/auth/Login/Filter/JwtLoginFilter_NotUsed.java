@@ -1,14 +1,13 @@
-package com.hanbat.zanbanzero.auth.jwt;
+package com.hanbat.zanbanzero.auth.Login.Filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hanbat.zanbanzero.Entity.user.User;
-import com.hanbat.zanbanzero.auth.PrincipalDetails;
+import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
+import com.hanbat.zanbanzero.auth.jwt.JwtUtil;
 import com.hanbat.zanbanzero.dto.user.UserDto;
 import com.hanbat.zanbanzero.exception.filter.SetFilterException;
 import com.hanbat.zanbanzero.template.JwtTemplate;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ import java.io.IOException;
 
 // Security Session > Security ContextHolder : Authentication > UserDetails
 @RequiredArgsConstructor
-public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtLoginFilter_NotUsed extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
@@ -53,12 +52,12 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     // 인증 성공 시 JWT 발급
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
+        UserPrincipalDetails userPrincipalDetails = (UserPrincipalDetails) authResult.getPrincipal();
 
         // HMAC256
-        String JwtToken = JwtUtil.createToken(principalDetails);
+        String JwtToken = JwtUtil.createToken(userPrincipalDetails);
 
-        response.addHeader(JwtTemplate.HEADER_STRING, JwtTemplate.TOKEN_PREFIX + JwtToken);
+        // response.addHeader(JwtTemplate.HEADER_STRING, JwtTemplate.TOKEN_PREFIX + JwtToken);
     }
 
     @Override

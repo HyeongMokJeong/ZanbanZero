@@ -29,7 +29,6 @@ public class UserService {
             return 0;
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setRoles("ROLE_USER");
-        user.setStoreId(null);
         userRepository.save(user);
         return 1;
     }
