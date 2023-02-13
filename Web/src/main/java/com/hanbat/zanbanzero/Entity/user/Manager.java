@@ -1,16 +1,22 @@
 package com.hanbat.zanbanzero.Entity.user;
 
+import com.hanbat.zanbanzero.dto.user.ManagerDto;
 import com.hanbat.zanbanzero.dto.user.UserDto;
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Getter
 @Setter
-public class User {
+public class Manager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,8 +26,8 @@ public class User {
     private String nickname;
     private String roles;
 
-    public static User createCommonUser(UserDto dto) {
-        return new User(
+    public static Manager createManager(ManagerDto dto) {
+        return new Manager(
                 dto.getId(),
                 dto.getUsername(),
                 dto.getPassword(),

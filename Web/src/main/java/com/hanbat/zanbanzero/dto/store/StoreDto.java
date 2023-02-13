@@ -12,12 +12,14 @@ public class StoreDto {
     private Long id;
     private String name;
     private int location;
+    private Long manager_id;
 
     public static StoreDto createStoreDto(Store store) {
         return new StoreDto(
                 store.getId(),
                 store.getName(),
-                store.getLocation()
+                store.getLocation(),
+                store.getId()
         );
     }
 }
