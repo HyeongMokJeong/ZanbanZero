@@ -67,7 +67,7 @@ public class ManagerLonginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        ManagerPrincipalDetails principalDetails = new ManagerPrincipalDetails((Manager) authResult.getPrincipal());
+        ManagerPrincipalDetails principalDetails = (ManagerPrincipalDetails) authResult.getPrincipal();
 
         // HMAC256
         String JwtToken = JwtUtil.createToken(principalDetails);

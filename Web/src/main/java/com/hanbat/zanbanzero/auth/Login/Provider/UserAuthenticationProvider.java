@@ -2,6 +2,7 @@ package com.hanbat.zanbanzero.auth.Login.Provider;
 
 import com.hanbat.zanbanzero.Entity.user.User;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
+import com.hanbat.zanbanzero.auth.Login.UserDetailsService.UserPrincipalDetailsService;
 import com.hanbat.zanbanzero.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -22,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserAuthenticationProvider implements AuthenticationProvider {
 
-    private final UserRepository userRepository;
+    private final UserPrincipalDetailsService userPrincipalDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -30,17 +31,16 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        User user = userRepository.findByUsername(username);
-        UserPrincipalDetails principalDetails = new UserPrincipalDetails(user);
+        UserPrincipalDetails principalDetails = userPrincipalDetailsService.loadUserByUsername(username);
 
-        if (password == null || !bCryptPasswordEncoder.matches(password, user.getPassword())) {
+        if (password == null || !bCryptPasswordEncoder.matches(password, principalDetails.getPassword())) {
             throw new AuthenticationServiceException("인증 실패");
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(principalDetails.getRoles().toString()));
 
-        return new UsernamePasswordAuthenticationToken(user, password, authorities);
+        return new UsernamePasswordAuthenticationToken(principalDetails, password, authorities);
     }
 
     @Override
