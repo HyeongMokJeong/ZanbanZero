@@ -2,13 +2,11 @@ package com.hanbat.zanbanzero.Entity.store;
 
 import com.hanbat.zanbanzero.dto.store.MenuDto;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
+@ToString
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +21,7 @@ public class Menu {
     private Store store;
 
     private String name;
-    private int cost;
+    private Integer cost;
     private String info;
     private String image;
 
@@ -36,15 +34,18 @@ public class Menu {
         dto.getImage());
     };
 
-    @Override
-    public String toString() {
-        return "Menu{" +
-                "id=" + id +
-                ", store=" + store +
-                ", name='" + name + '\'' +
-                ", cost=" + cost +
-                ", info='" + info + '\'' +
-                ", image='" + image + '\'' +
-                '}';
+    public void patch(MenuDto dto) {
+        if (dto.getName() != null) {
+            this.name = dto.getName();
+        }
+        if (dto.getCost() != null) {
+            this.cost = dto.getCost();
+        }
+        if (dto.getInfo() != null) {
+            this.info = dto.getInfo();
+        }
+        if (dto.getImage() != null) {
+            this.image = dto.getImage();
+        }
     }
 }

@@ -8,7 +8,6 @@ import com.hanbat.zanbanzero.auth.Login.UserDetails.ManagerPrincipalDetails;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
 import com.hanbat.zanbanzero.repository.user.ManagerRepository;
 import com.hanbat.zanbanzero.repository.user.UserRepository;
-import com.hanbat.zanbanzero.template.JwtTemplate;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

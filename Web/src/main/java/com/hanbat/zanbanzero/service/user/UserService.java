@@ -3,6 +3,7 @@ package com.hanbat.zanbanzero.service.user;
 import com.hanbat.zanbanzero.Entity.user.User;
 import com.hanbat.zanbanzero.auth.jwt.JwtUtil;
 import com.hanbat.zanbanzero.dto.user.UserDto;
+import com.hanbat.zanbanzero.exception.controller.exceptions.JwtException;
 import com.hanbat.zanbanzero.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    private JwtUtil jwtUtil = new JwtUtil();
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public int join(UserDto dto) {
@@ -33,9 +33,9 @@ public class UserService {
         return 1;
     }
 
-    public UserDto getInfo(UserDto dto, String token) {
-        if (!dto.getUsername().equals(jwtUtil.getUsernameFromToken(token))) {
-            return null;
+    public UserDto getInfo(UserDto dto, String token) throws JwtException {
+        if (!jwtUtil.checkJwt(dto.getUsername(), token)) {
+            throw new JwtException("토큰과 유저명이 다릅니다.");
         }
 
         User user = userRepository.findByUsername(dto.getUsername());

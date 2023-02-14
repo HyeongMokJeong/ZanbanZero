@@ -1,15 +1,14 @@
 package com.hanbat.zanbanzero.controller.menu;
 
+import com.hanbat.zanbanzero.Entity.store.Menu;
 import com.hanbat.zanbanzero.dto.store.MenuDto;
 import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
+import com.hanbat.zanbanzero.exception.controller.exceptions.SameNameException;
 import com.hanbat.zanbanzero.service.menu.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,9 +27,24 @@ public class MenuApiController {
     @GetMapping("/api/user/menu/{id}")
     public ResponseEntity<MenuDto> getMenuInfo(@PathVariable Long id) throws CantFindByIdException {
         MenuDto menuDto = menuService.getMenuInfo(id);
-        if (menuDto == null) {
-            throw new CantFindByIdException("잘못된 id 입니다.");
-        }
         return ResponseEntity.status(HttpStatus.OK).body(menuDto);
+    }
+
+    @PostMapping("/api/manager/store/{id}/menu/add")
+    public ResponseEntity<String> addMenu(@RequestBody MenuDto dto, @PathVariable Long id) throws SameNameException, CantFindByIdException {
+        menuService.addMenu(dto, id);
+        return ResponseEntity.status(HttpStatus.OK).body("등록되었습니다.");
+    }
+
+    @PatchMapping("/api/manager/menu/{id}/update")
+    public ResponseEntity<String> updateMenu(@RequestBody MenuDto dto, @PathVariable Long id) throws CantFindByIdException {
+        menuService.updateMenu(dto, id);
+        return ResponseEntity.status(HttpStatus.OK).body("수정되었습니다.");
+    }
+
+    @DeleteMapping("/api/manager/menu/{id}/delete")
+    public ResponseEntity<String> deleteMenu(@PathVariable Long id) throws CantFindByIdException {
+        menuService.deleteMenu(id);
+        return ResponseEntity.status(HttpStatus.OK).body("삭제되었습니다.");
     }
 }

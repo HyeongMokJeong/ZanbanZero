@@ -19,7 +19,7 @@ public class StoreDto {
                 store.getId(),
                 store.getName(),
                 store.getLocation(),
-                store.getId()
+                store.getManager().getId()
         );
     }
 }

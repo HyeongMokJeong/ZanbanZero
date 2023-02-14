@@ -13,7 +13,7 @@ public class MenuDto {
     private Long id;
     private Long storeId;
     private String name;
-    private int cost;
+    private Integer cost;
     private String info;
     private String image;
 
