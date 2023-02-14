@@ -14,7 +14,7 @@ public class SetFilterException {
 
     public static void setResponse(HttpServletRequest request, HttpServletResponse response, HttpStatus status, String message) {
         ObjectMapper objectMapper = new ObjectMapper();
-        FilterExceptionTemplate filterExceptionTemplate = new FilterExceptionTemplate(new Date().toString(), message, request.getRequestURI(), status.value());
+        ExceptionTemplate exceptionTemplate = new ExceptionTemplate(new Date().toString(), message, request.getRequestURI(), status.value());
         String result;
         response.setStatus(status.value());
 
@@ -22,7 +22,7 @@ public class SetFilterException {
         response.setCharacterEncoding("UTF-8");
 
         try {
-            result = objectMapper.writeValueAsString(filterExceptionTemplate);
+            result = objectMapper.writeValueAsString(exceptionTemplate);
         } catch (JsonProcessingException ex) {
             throw new RuntimeException(ex);
         }

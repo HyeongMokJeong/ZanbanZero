@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class FilterExceptionTemplate {
+public class ExceptionTemplate {
     private String date;
     private String message;
     private String uri;

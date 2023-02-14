@@ -1,6 +1,7 @@
 package com.hanbat.zanbanzero.service.store;
 
 import com.hanbat.zanbanzero.Entity.store.Store;
+import com.hanbat.zanbanzero.dto.store.StoreDto;
 import com.hanbat.zanbanzero.repository.store.StoreRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -48,5 +50,14 @@ class StoreServiceTest {
 
 //            assertEquals(expected.toString(), result.toString());
         }
+    }
+
+    @Test
+    void getStoresByManagerId() {
+        Long testId = 3L;
+        List<Store> result = storeRepository.findByManagerId(testId);
+        System.out.println(result.stream()
+                .map(store -> StoreDto.createStoreDto(store))
+                .collect(Collectors.toList()));
     }
 }

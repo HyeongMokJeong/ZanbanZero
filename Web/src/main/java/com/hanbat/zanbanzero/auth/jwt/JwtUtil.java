@@ -4,8 +4,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.ManagerPrincipalDetails;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
-import com.hanbat.zanbanzero.dto.user.UserDto;
-import com.hanbat.zanbanzero.template.JwtTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -40,6 +38,13 @@ public class JwtUtil {
         }
         String username = JWT.require(Algorithm.HMAC256(JwtTemplate.SECRET)).build().verify(token).getClaim("username").asString();
         return username;
+    }
+
+    public Boolean checkJwt(String username, String token) {
+        if (!username.equals(getUsernameFromToken(token))) {
+            return false;
+        }
+        return true;
     }
 
     // 만료되었는지

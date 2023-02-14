@@ -5,7 +5,6 @@ import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
 import com.hanbat.zanbanzero.auth.jwt.JwtUtil;
 import com.hanbat.zanbanzero.dto.user.UserDto;
 import com.hanbat.zanbanzero.exception.filter.SetFilterException;
-import com.hanbat.zanbanzero.template.JwtTemplate;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
