@@ -1,17 +1,14 @@
 package com.hanbat.zanbanzero.repository.order;
 
-import com.hanbat.zanbanzero.dto.order.OrderDto;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Repository;
+import com.hanbat.zanbanzero.Entity.order.Order;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-@Repository
-@RequiredArgsConstructor
-public class OrderRepository {
+import java.util.List;
+import java.util.Optional;
 
-    private final MongoTemplate mongoTemplate;
+public interface OrderRepository extends MongoRepository<Order, String> {
 
-    public void add(OrderDto dto) {
-        mongoTemplate.insert(dto);
-    }
+    public Optional<Order> findById(String id);
+
+    public List<Order> findByUserId(Long userId);
 }

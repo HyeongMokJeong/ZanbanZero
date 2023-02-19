@@ -1,19 +1,35 @@
 package com.hanbat.zanbanzero.Entity.order;
 
-import jakarta.persistence.Entity;
+import com.hanbat.zanbanzero.dto.order.OrderDto;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
+import java.util.Map;
+
+@Document(collection = "order")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Order {
     @Id
-    private Long id;
+    private String id;
+    private Long storeId;
+    private Long userId;
+    private Map<Long, Integer> menu;
+    private String date;
+    private Boolean payed;
 
+    public static Order createOrder(OrderDto orderDto) {
+        return new Order(
+                orderDto.getId(),
+                orderDto.getStoreId(),
+                orderDto.getUserId(),
+                orderDto.getMenu(),
+                orderDto.getDate(),
+                orderDto.getPayed()
+        );
+    }
 }

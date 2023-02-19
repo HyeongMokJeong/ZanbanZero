@@ -5,6 +5,7 @@ import com.hanbat.zanbanzero.Entity.user.Manager;
 import com.hanbat.zanbanzero.dto.store.StoreDto;
 import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
 import com.hanbat.zanbanzero.exception.controller.exceptions.JwtException;
+import com.hanbat.zanbanzero.exception.controller.exceptions.RequestDataisNull;
 import com.hanbat.zanbanzero.exception.controller.exceptions.SameNameException;
 import com.hanbat.zanbanzero.repository.store.StoreRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,9 +56,13 @@ public class StoreService {
                 .collect(Collectors.toList());
     }
 
-    public void addStore(StoreDto dto, Long id) throws CantFindByIdException, SameNameException {
+    public void addStore(StoreDto dto, Long id) throws CantFindByIdException, SameNameException, RequestDataisNull {
         if (storeRepository.doubleCheckStoreName(dto.getName(), id) == 1) {
             throw new SameNameException("데이터 중복입니다.");
+        }
+
+        if (dto.getName() == null) {
+            throw new RequestDataisNull("데이터가 부족합니다. - " + "Name");
         }
 
         dto.setManager_id(id);

@@ -1,5 +1,6 @@
 package com.hanbat.zanbanzero.dto.order;
 
+import com.hanbat.zanbanzero.Entity.order.Order;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,18 +15,37 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Document("order")
 public class OrderDto {
 
-    private Long store_id;
-    private Long user_id;
+    private String id;
+    private Long storeId;
+    private Long userId;
     private Map<Long, Integer> menu;
     private String date;
     private Boolean payed;
 
     public OrderDto(Long store_id, Long user_id, Map<Long, Integer> menu) {
-        this.store_id = store_id;
-        this.user_id = user_id;
+        this.storeId = store_id;
+        this.userId = user_id;
         this.menu = menu;
+    }
+
+    public OrderDto(Long store_id, Long user_id, Map<Long, Integer> menu, String date, Boolean payed) {
+        this.storeId = store_id;
+        this.userId = user_id;
+        this.menu = menu;
+        this.date = date;
+        this.payed = payed;
+    }
+
+    public static OrderDto createOrderDto(Order order) {
+        return new OrderDto(
+                order.getId(),
+                order.getStoreId(),
+                order.getUserId(),
+                order.getMenu(),
+                order.getDate(),
+                order.getPayed()
+        );
     }
 }
