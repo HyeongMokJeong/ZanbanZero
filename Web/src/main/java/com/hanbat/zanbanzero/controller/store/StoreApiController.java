@@ -4,6 +4,7 @@ import com.hanbat.zanbanzero.Entity.store.Store;
 import com.hanbat.zanbanzero.dto.store.StoreDto;
 import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
 import com.hanbat.zanbanzero.exception.controller.exceptions.JwtException;
+import com.hanbat.zanbanzero.exception.controller.exceptions.RequestDataisNull;
 import com.hanbat.zanbanzero.exception.controller.exceptions.SameNameException;
 import com.hanbat.zanbanzero.service.store.StoreService;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +48,7 @@ public class StoreApiController {
     }
 
     @PostMapping("/api/manager/{id}/store/add")
-    public ResponseEntity<String> addStore(@RequestBody StoreDto dto, @PathVariable Long id) throws CantFindByIdException, SameNameException {
+    public ResponseEntity<String> addStore(@RequestBody StoreDto dto, @PathVariable Long id) throws CantFindByIdException, SameNameException, RequestDataisNull {
         storeService.addStore(dto, id);
         return ResponseEntity.status(HttpStatus.OK).body("등록되었습니다.");
     }

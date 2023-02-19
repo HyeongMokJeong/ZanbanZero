@@ -2,6 +2,7 @@ package com.hanbat.zanbanzero.exception.controller;
 
 import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
 import com.hanbat.zanbanzero.exception.controller.exceptions.JwtException;
+import com.hanbat.zanbanzero.exception.controller.exceptions.RequestDataisNull;
 import com.hanbat.zanbanzero.exception.filter.ExceptionTemplate;
 import com.hanbat.zanbanzero.exception.controller.exceptions.SameNameException;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,13 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CantFindByIdException.class)
     public final ResponseEntity<Object> cantFindById(Exception ex, WebRequest request){
         status = HttpStatus.INTERNAL_SERVER_ERROR;
+        ExceptionTemplate exceptionResponse = new ExceptionTemplate(new Date().toString(), ex.getMessage(), ((ServletWebRequest)request).getRequest().getRequestURI(), status.value());
+        return new ResponseEntity(exceptionResponse, status);
+    }
+
+    @ExceptionHandler(RequestDataisNull.class)
+    public final ResponseEntity<Object> requestDataisNull(Exception ex, WebRequest request){
+        status = HttpStatus.PRECONDITION_FAILED;
         ExceptionTemplate exceptionResponse = new ExceptionTemplate(new Date().toString(), ex.getMessage(), ((ServletWebRequest)request).getRequest().getRequestURI(), status.value());
         return new ResponseEntity(exceptionResponse, status);
     }
