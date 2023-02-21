@@ -50,4 +50,12 @@ public class OrderService {
                 .map(order -> OrderDto.createOrderDto(order))
                 .collect(Collectors.toList());
     }
+
+    public OrderDto getOrderDetails(String orderId) throws CantFindByIdException {
+        Order order = orderRepository.findById(orderId).orElse(null);
+        if (order == null) {
+            throw new CantFindByIdException("잘못된 id 입니다.");
+        }
+        return OrderDto.createOrderDto(order);
+    }
 }

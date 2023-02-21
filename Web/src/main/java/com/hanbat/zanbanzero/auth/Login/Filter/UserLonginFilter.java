@@ -1,7 +1,9 @@
 package com.hanbat.zanbanzero.auth.Login.Filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hanbat.zanbanzero.Entity.user.Manager;
 import com.hanbat.zanbanzero.Entity.user.User;
+import com.hanbat.zanbanzero.auth.Login.UserDetails.ManagerPrincipalDetails;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
 import com.hanbat.zanbanzero.auth.jwt.JwtUtil;
 import com.hanbat.zanbanzero.exception.filter.SetFilterException;
@@ -17,6 +19,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
@@ -28,7 +31,7 @@ public class UserLonginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if ("/login/user".equals(((HttpServletRequest) request).getRequestURI())) {
+        if ("/login/user".equals(((HttpServletRequest) request).getRequestURI()) || "/login/manager".equals(((HttpServletRequest) request).getRequestURI())) {
             super.doFilter(request, response, chain);
         } else {
             chain.doFilter(request, response);
@@ -46,15 +49,25 @@ public class UserLonginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
         ObjectMapper objectMapper = new ObjectMapper();
-        User user = null;
+        UsernamePasswordAuthenticationToken token = null;
 
-        try {
-            user = objectMapper.readValue(request.getInputStream(), User.class);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (path.equals("/login/user")) {
+            try {
+                User user = objectMapper.readValue(request.getInputStream(), User.class);
+                token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else if (path.equals("/login/manager")) {
+            try {
+                Manager manager = objectMapper.readValue(request.getInputStream(), Manager.class);
+                token = new UsernamePasswordAuthenticationToken(manager.getUsername(), manager.getPassword());
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         token.setDetails(path);
 
         Authentication authentication = authenticationManager.authenticate(token);
@@ -63,13 +76,21 @@ public class UserLonginFilter extends UsernamePasswordAuthenticationFilter {
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        UserPrincipalDetails principalDetails = (UserPrincipalDetails) authResult.getPrincipal();
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) {
+        UserDetails principalDetails = (UserDetails) authResult.getPrincipal();
+        if (request.getRequestURI().equals("/login/user")) {
+            principalDetails = (UserPrincipalDetails) authResult.getPrincipal();
+        }
+        else if (request.getRequestURI().equals("/login/manager")) {
+            principalDetails = (ManagerPrincipalDetails) authResult.getPrincipal();
+        }
 
         // HMAC256
-        String JwtToken = JwtUtil.createToken(principalDetails);
+        String JwtToken = JwtUtil.createToken(principalDetails, request.getRequestURI());
+        String RefreshToken = JwtUtil.createRefreshToken(principalDetails);
 
-        response.addHeader(JwtTemplate.HEADER_STRING, JwtTemplate.TOKEN_PREFIX_USER + JwtToken);
+        response.addHeader(JwtTemplate.REFRESH_HEADER_STRING, JwtTemplate.TOKEN_PREFIX + RefreshToken);
+        response.addHeader(JwtTemplate.HEADER_STRING, JwtTemplate.TOKEN_PREFIX + JwtToken);
     }
 
     @Override

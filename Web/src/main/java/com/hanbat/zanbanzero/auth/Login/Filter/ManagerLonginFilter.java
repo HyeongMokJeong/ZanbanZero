@@ -67,9 +67,11 @@ public class ManagerLonginFilter extends UsernamePasswordAuthenticationFilter {
         ManagerPrincipalDetails principalDetails = (ManagerPrincipalDetails) authResult.getPrincipal();
 
         // HMAC256
-        String JwtToken = JwtUtil.createToken(principalDetails);
+        //String JwtToken = JwtUtil.createToken(principalDetails);
+        String RefreshToken = JwtUtil.createRefreshToken(principalDetails);
 
-        response.addHeader(JwtTemplate.HEADER_STRING, JwtTemplate.TOKEN_PREFIX_MANAGER + JwtToken);
+        response.addHeader(JwtTemplate.REFRESH_HEADER_STRING, JwtTemplate.TOKEN_PREFIX + RefreshToken);
+        //response.addHeader(JwtTemplate.HEADER_STRING, JwtTemplate.TOKEN_PREFIX_MANAGER + JwtToken);
     }
 
     @Override

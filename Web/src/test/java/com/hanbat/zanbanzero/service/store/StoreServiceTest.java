@@ -60,4 +60,13 @@ class StoreServiceTest {
                 .map(store -> StoreDto.createStoreDto(store))
                 .collect(Collectors.toList()));
     }
+
+    @Test
+    void createTestData() {
+        int i, size = 1000000;
+        for (i = 0; i < size; i++) {
+            Store store = new Store(null, "test store " + i, i, null);
+            storeRepository.save(store);
+        }
+    }
 }

@@ -35,4 +35,10 @@ public class OrderApiController {
         List<OrderDto> result = orderService.getOrders(orderDto.getUserId());
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    @GetMapping("/api/user/order/details")
+    public ResponseEntity<OrderDto> getOrderDetails(@RequestBody OrderDto orderDto) throws CantFindByIdException {
+        OrderDto result = orderService.getOrderDetails(orderDto.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }

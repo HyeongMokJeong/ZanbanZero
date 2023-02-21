@@ -54,7 +54,7 @@ public class JwtLoginFilter_NotUsed extends UsernamePasswordAuthenticationFilter
         UserPrincipalDetails userPrincipalDetails = (UserPrincipalDetails) authResult.getPrincipal();
 
         // HMAC256
-        String JwtToken = JwtUtil.createToken(userPrincipalDetails);
+        // String JwtToken = JwtUtil.createToken(userPrincipalDetails);
 
         // response.addHeader(JwtTemplate.HEADER_STRING, JwtTemplate.TOKEN_PREFIX + JwtToken);
     }
