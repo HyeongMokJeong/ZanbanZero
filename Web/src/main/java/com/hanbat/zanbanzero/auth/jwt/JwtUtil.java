@@ -35,16 +35,6 @@ public class JwtUtil {
             throw new RuntimeException("잘못된 PATH 입니다.");
         }
     }
-
-//    public static String createToken(ManagerPrincipalDetails principalDetails) {
-//        return JWT.create()
-//                .withSubject(JwtTemplate.TOKEN_PREFIX_MANAGER)
-//                .withExpiresAt(new Date(System.currentTimeMillis() + JwtTemplate.EXPIRATION_TIME))
-//                .withClaim("id", principalDetails.getManager().getId())
-//                .withClaim("username", principalDetails.getManager().getUsername())
-//                .sign(Algorithm.HMAC256(JwtTemplate.SECRET));
-//    }
-
     public static String createRefreshToken(UserDetails userDetails) {
         return JWT.create()
                 .withSubject(JwtTemplate.TOKEN_PREFIX)

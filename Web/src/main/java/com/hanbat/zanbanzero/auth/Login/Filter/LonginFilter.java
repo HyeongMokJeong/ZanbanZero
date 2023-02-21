@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.io.IOException;
 
-public class UserLonginFilter extends UsernamePasswordAuthenticationFilter {
+public class LonginFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
     private final String path;
 
@@ -38,7 +38,7 @@ public class UserLonginFilter extends UsernamePasswordAuthenticationFilter {
         }
     }
 
-    public UserLonginFilter(String path, AuthenticationManager authenticationManager) {
+    public LonginFilter(String path, AuthenticationManager authenticationManager) {
         super(authenticationManager);
         setFilterProcessesUrl(path);
 
@@ -89,8 +89,8 @@ public class UserLonginFilter extends UsernamePasswordAuthenticationFilter {
         String JwtToken = JwtUtil.createToken(principalDetails, request.getRequestURI());
         String RefreshToken = JwtUtil.createRefreshToken(principalDetails);
 
-        response.addHeader(JwtTemplate.REFRESH_HEADER_STRING, JwtTemplate.TOKEN_PREFIX + RefreshToken);
         response.addHeader(JwtTemplate.HEADER_STRING, JwtTemplate.TOKEN_PREFIX + JwtToken);
+        response.addHeader(JwtTemplate.REFRESH_HEADER_STRING, JwtTemplate.TOKEN_PREFIX + RefreshToken);
     }
 
     @Override

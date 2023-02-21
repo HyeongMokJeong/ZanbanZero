@@ -1,10 +1,7 @@
 package com.hanbat.zanbanzero.config;
 
 import com.hanbat.zanbanzero.auth.CustomAuthenticationManager;
-import com.hanbat.zanbanzero.auth.Login.Filter.ManagerLonginFilter;
-import com.hanbat.zanbanzero.auth.Login.Filter.UserLonginFilter;
-import com.hanbat.zanbanzero.auth.Login.Provider.ManagerAuthenticationProvider;
-import com.hanbat.zanbanzero.auth.Login.Provider.UserAuthenticationProvider;
+import com.hanbat.zanbanzero.auth.Login.Filter.LonginFilter;
 import com.hanbat.zanbanzero.auth.jwt.JwtAuthFilter;
 import com.hanbat.zanbanzero.exception.filter.ExceptionHandlerBeforeBasicAuthentication;
 import com.hanbat.zanbanzero.exception.filter.ExceptionHandlerBeforeUsernamePassword;
@@ -28,11 +25,7 @@ public class SecurityConfig {
 
     private final UserRepository userRepository;
     private final ManagerRepository managerRepository;
-
-    private final UserAuthenticationProvider userAuthenticationProvider;
-    private final ManagerAuthenticationProvider managerAuthenticationProvider;
     private final CustomAuthenticationManager customAuthenticationManager;
-
     private final CorsFilter corsFilter;
 
     @Bean
@@ -44,9 +37,8 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .addFilterBefore(new ExceptionHandlerBeforeUsernamePassword(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new UserLonginFilter("/login/user", customAuthenticationManager), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new UserLonginFilter("/login/manager", customAuthenticationManager), UsernamePasswordAuthenticationFilter.class)
-                //.addFilterBefore(new ManagerLonginFilter("/login/manager", customAuthenticationManager), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new LonginFilter("/login/user", customAuthenticationManager), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new LonginFilter("/login/manager", customAuthenticationManager), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new ExceptionHandlerBeforeBasicAuthentication(), BasicAuthenticationFilter.class)
                 .addFilter(new JwtAuthFilter(customAuthenticationManager, userRepository, managerRepository))
                 .authorizeHttpRequests()
