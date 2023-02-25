@@ -13,7 +13,6 @@ public class ManagerDto {
     private Long id;
     private String username;
     private String password;
-    private String nickname;
     private String roles;
 
     public ManagerDto(String username, String password) {
@@ -26,7 +25,6 @@ public class ManagerDto {
                 entity.getId(),
                 entity.getUsername(),
                 entity.getPassword(),
-                entity.getNickname(),
                 entity.getRoles()
         );
     }

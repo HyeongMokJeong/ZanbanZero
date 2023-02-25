@@ -1,9 +1,8 @@
 package com.hanbat.zanbanzero.auth.Login.Filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hanbat.zanbanzero.Entity.user.User;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
-import com.hanbat.zanbanzero.auth.jwt.JwtUtil;
-import com.hanbat.zanbanzero.dto.user.UserDto;
 import com.hanbat.zanbanzero.exception.filter.SetFilterException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -28,11 +27,11 @@ public class JwtLoginFilter_NotUsed extends UsernamePasswordAuthenticationFilter
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         ObjectMapper objectMapper = new ObjectMapper();
-        UserDto user = null;
+        User user = null;
 
         // request에서 username, password 받아서 user 객체 생성
         try {
-            user = objectMapper.readValue(request.getInputStream(), UserDto.class);
+            user = objectMapper.readValue(request.getInputStream(), User.class);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,61 +1,84 @@
 package com.hanbat.zanbanzero.service.order;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hanbat.zanbanzero.Entity.order.Order;
+import com.hanbat.zanbanzero.Entity.order.OrderMenu;
+import com.hanbat.zanbanzero.aop.annotation.RunningTime;
 import com.hanbat.zanbanzero.dto.order.OrderDto;
+import com.hanbat.zanbanzero.dto.order.OrderMenuDto;
 import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
 import com.hanbat.zanbanzero.exception.controller.exceptions.RequestDataisNull;
+import com.hanbat.zanbanzero.repository.order.OrderMenuRepository;
 import com.hanbat.zanbanzero.repository.order.OrderRepository;
+import com.hanbat.zanbanzero.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StopWatch;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderService {
 
+    private final UserRepository userRepository;
     private final OrderRepository orderRepository;
+    private final OrderMenuRepository orderMenuRepository;
 
-    public void addOrder(OrderDto orderDto) throws RequestDataisNull {
-        if (orderDto.getStoreId() == null || orderDto.getUserId() == null || orderDto.getMenu() == null) {
+    @Transactional
+    public void addOrder(OrderMenuDto dto, Long id) throws RequestDataisNull, JsonProcessingException {
+        if (dto.getMenu() == null) {
             List<String> nullList = new ArrayList<>();
-            if (orderDto.getStoreId() == null) nullList.add("StoreId");
-            if (orderDto.getUserId() == null) nullList.add("UserId");
-            if (orderDto.getMenu() == null) nullList.add("Menu");
+            nullList.add("Menu");
             throw new RequestDataisNull("데이터가 부족합니다. - " + nullList);
         }
 
-        orderDto.setDate(new Date().toString());
-        orderDto.setPayed(true);
+        OrderMenu orderMenu = OrderMenu.createOrderMenu(dto);
+        OrderMenu result = orderMenuRepository.save(orderMenu);
 
-        orderRepository.insert(Order.createOrder(orderDto));
-    }
+        OrderDto orderDto = OrderDto.builder()
+                .updated(new Date().toString())
+                .payed(1)
+                .userId(id)
+                .build();
 
-    public void deleteOrder(String orderId) throws CantFindByIdException {
-        Order order = orderRepository.findById(orderId).orElse(null);
-        if (order == null) {
-            throw new CantFindByIdException("잘못된 id 입니다.");
-        }
-        order.setPayed(false);
+        Order order = Order.createOrder(orderDto, userRepository.getReferenceById(id), orderMenuRepository.getReferenceById(result.getId()));
         orderRepository.save(order);
     }
 
-    public List<OrderDto> getOrders(Long userId) {
-        List<Order> orders = orderRepository.findByUserId(userId);
-        return orders.stream()
-                .map(order -> OrderDto.createOrderDto(order))
-                .collect(Collectors.toList());
-    }
-
-    public OrderDto getOrderDetails(String orderId) throws CantFindByIdException {
-        Order order = orderRepository.findById(orderId).orElse(null);
+    @Transactional
+    public void deleteOrder(Long id) throws CantFindByIdException {
+        Order order = orderRepository.findById(id).orElse(null);
         if (order == null) {
             throw new CantFindByIdException("잘못된 id 입니다.");
         }
-        return OrderDto.createOrderDto(order);
+        order.setPayed(0);
+        orderRepository.save(order);
+    }
+
+    public List<OrderDto> getOrders(Long id) {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start();
+        List<Order> orders = orderRepository.getOrdres(id);
+
+        return orders.stream()
+                .map(order -> {
+                    try {
+                        return OrderDto.createOrderDto(order);
+                    } catch (JsonProcessingException e) {
+                        throw new RuntimeException(e);
+                    }
+                })
+                .collect(Collectors.toList());
+    }
+
+    public OrderDto getOrderDetails(Long orderId) throws CantFindByIdException {
+        return null;
     }
 }

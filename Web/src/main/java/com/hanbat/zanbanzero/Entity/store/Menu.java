@@ -7,7 +7,6 @@ import lombok.*;
 @Entity
 @Getter
 @ToString
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class Menu {
@@ -16,10 +15,6 @@ public class Menu {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "store_id")
-    private Store store;
-
     private String name;
     private Integer cost;
     private String info;
@@ -27,7 +22,6 @@ public class Menu {
 
     public static Menu createMenu(MenuDto dto) {
         return new Menu(dto.getId(),
-        new Store(dto.getStoreId()),
         dto.getName(),
         dto.getCost(),
         dto.getInfo(),

@@ -1,7 +1,6 @@
 package com.hanbat.zanbanzero.dto.store;
 
 import com.hanbat.zanbanzero.Entity.store.Menu;
-import com.hanbat.zanbanzero.Entity.store.Store;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,7 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MenuDto {
     private Long id;
-    private Long storeId;
     private String name;
     private Integer cost;
     private String info;
@@ -20,7 +18,6 @@ public class MenuDto {
     public static MenuDto createMenuDto(Menu menu) {
         return new MenuDto(
                 menu.getId(),
-                menu.getStore().getId(),
                 menu.getName(),
                 menu.getCost(),
                 menu.getInfo(),

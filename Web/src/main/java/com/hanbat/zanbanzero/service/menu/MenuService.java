@@ -18,8 +18,8 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
-    public List<MenuDto> getMenuToStoreId(Long id) {
-        List<Menu> menus = menuRepository.findByStoreId(id);
+    public List<MenuDto> getMenu() {
+        List<Menu> menus = menuRepository.findAll();
         List<MenuDto> result = new ArrayList<>();
         menus.forEach((menu) -> {
             result.add(MenuDto.createMenuDto(menu));
@@ -35,11 +35,10 @@ public class MenuService {
         return MenuDto.createMenuDto(menu);
     }
 
-    public void addMenu(MenuDto dto, Long id) throws SameNameException, CantFindByIdException {
-        if (menuRepository.doubleCheckMenuName(dto.getName(), id) == 1) {
+    public void addMenu(MenuDto dto) throws SameNameException, CantFindByIdException {
+        if (menuRepository.doubleCheckMenuName(dto.getName()) == 1) {
             throw new SameNameException("데이터 중복입니다.");
         }
-        dto.setStoreId(id);
         Menu menu = Menu.createMenu(dto);
 
         try {

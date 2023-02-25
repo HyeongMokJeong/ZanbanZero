@@ -1,6 +1,5 @@
 package com.hanbat.zanbanzero.controller.menu;
 
-import com.hanbat.zanbanzero.Entity.store.Menu;
 import com.hanbat.zanbanzero.dto.store.MenuDto;
 import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
 import com.hanbat.zanbanzero.exception.controller.exceptions.SameNameException;
@@ -18,9 +17,9 @@ public class MenuApiController {
 
     private final MenuService menuService;
 
-    @GetMapping("/api/user/store/{id}/menu")
-    public ResponseEntity<List<MenuDto>> getMenuToStoreId(@PathVariable Long id) {
-        List<MenuDto> menus = menuService.getMenuToStoreId(id);
+    @GetMapping("/api/user/menu")
+    public ResponseEntity<List<MenuDto>> getMenu() {
+        List<MenuDto> menus = menuService.getMenu();
         return ResponseEntity.status(HttpStatus.OK).body(menus);
     }
 
@@ -30,9 +29,9 @@ public class MenuApiController {
         return ResponseEntity.status(HttpStatus.OK).body(menuDto);
     }
 
-    @PostMapping("/api/manager/store/{id}/menu/add")
-    public ResponseEntity<String> addMenu(@RequestBody MenuDto dto, @PathVariable Long id) throws SameNameException, CantFindByIdException {
-        menuService.addMenu(dto, id);
+    @PostMapping("/api/manager/menu/add")
+    public ResponseEntity<String> addMenu(@RequestBody MenuDto dto) throws SameNameException, CantFindByIdException {
+        menuService.addMenu(dto);
         return ResponseEntity.status(HttpStatus.OK).body("등록되었습니다.");
     }
 

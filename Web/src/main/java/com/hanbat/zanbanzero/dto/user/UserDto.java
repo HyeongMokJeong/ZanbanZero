@@ -12,21 +12,14 @@ public class UserDto {
     private Long id;
     private String username;
     private String password;
-    private String nickname;
     private String roles;
 
-    public UserDto(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public static UserDto createCommonUserDto(User entity) {
+    public static UserDto createCommonUserDto(User user) {
         return new UserDto(
-                entity.getId(),
-                entity.getUsername(),
-                entity.getPassword(),
-                entity.getNickname(),
-                entity.getRoles()
+                user.getId(),
+                user.getUsername(),
+                user.getPassword(),
+                user.getRoles()
         );
     }
 }

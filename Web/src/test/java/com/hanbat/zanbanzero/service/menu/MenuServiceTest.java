@@ -1,18 +1,13 @@
 package com.hanbat.zanbanzero.service.menu;
 
 import com.hanbat.zanbanzero.Entity.store.Menu;
-import com.hanbat.zanbanzero.Entity.store.Store;
 import com.hanbat.zanbanzero.dto.store.MenuDto;
 import com.hanbat.zanbanzero.repository.menu.MenuRepository;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class MenuServiceTest {
