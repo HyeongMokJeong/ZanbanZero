@@ -15,7 +15,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 public class Manager {
 
     @Id
@@ -23,7 +22,6 @@ public class Manager {
     private Long id;
     private String username;
     private String password;
-    private String nickname;
     private String roles;
 
     public static Manager createManager(ManagerDto dto) {
@@ -31,7 +29,6 @@ public class Manager {
                 dto.getId(),
                 dto.getUsername(),
                 dto.getPassword(),
-                dto.getNickname(),
                 dto.getRoles()
         );
     }

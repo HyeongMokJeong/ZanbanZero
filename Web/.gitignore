@@ -29,6 +29,7 @@ out/
 ### Web Backend ###
 JwtTemplate.java
 application-env.properties
+logback-spring.xml
 
 ### NetBeans ###
 /nbproject/private/

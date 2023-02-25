@@ -37,22 +37,21 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
         String jwtHeader = request.getHeader(JwtTemplate.HEADER_STRING);
 
         // JWT(Header)가 있는지 확인
-        if ((jwtHeader == null || !jwtHeader.startsWith(JwtTemplate.TOKEN_PREFIX_MANAGER) && !jwtHeader.startsWith(JwtTemplate.TOKEN_PREFIX_USER))) {
-            if (request.getRequestURI().toString().equals("/join") || request.getRequestURI().toString().equals("/login/user") || request.getRequestURI().toString().equals("/login/manager")){
+        if ((jwtHeader == null || !jwtHeader.startsWith(JwtTemplate.TOKEN_PREFIX))) {
+            if (request.getRequestURI().equals("/join") || request.getRequestURI().equals("/login/user") || request.getRequestURI().equals("/login/manager")){
                 chain.doFilter(request, response);
                 return;
             }
             throw new IOException("토큰이 없거나 잘못되었습니다.");
         }
 
-        String token_type = (jwtHeader.startsWith(JwtTemplate.TOKEN_PREFIX_MANAGER)) ? JwtTemplate.TOKEN_PREFIX_MANAGER : JwtTemplate.TOKEN_PREFIX_USER;
         // JWT 검증
-        String jwtToken = jwtHeader.replace(token_type, "");
+        String jwtToken = jwtHeader.replace(JwtTemplate.TOKEN_PREFIX, "");
 
         String username = JWT.require(Algorithm.HMAC256(JwtTemplate.SECRET)).build().verify(jwtToken).getClaim("username").asString();
 
         if (username != null) {
-            if (token_type.equals(JwtTemplate.TOKEN_PREFIX_USER)) {
+            if (request.getRequestURI().startsWith("/api/user")) {
                 User user = userRepository.findByUsername(username);
 
                 UserPrincipalDetails principalDetails = new UserPrincipalDetails(user);
@@ -64,7 +63,7 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
-            else if (token_type.equals(JwtTemplate.TOKEN_PREFIX_MANAGER)) {
+            else if (request.getRequestURI().startsWith("/api/manager")) {
                 Manager manager = managerRepository.findByUsername(username);
 
                 ManagerPrincipalDetails principalDetails = new ManagerPrincipalDetails(manager);

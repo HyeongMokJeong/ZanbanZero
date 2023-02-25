@@ -8,14 +8,12 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
-    List<Menu> findByStoreId(Long id);
 
     @Query(value =
             "SELECT EXISTS(" +
                     "SELECT * " +
                     "FROM menu " +
-                    "WHERE name = :name " +
-                    "AND store_id = :id)",
+                    "WHERE name = :name )",
             nativeQuery = true)
-    Long doubleCheckMenuName(@Param("name") String name,@Param("id") Long id);
+    Long doubleCheckMenuName(@Param("name") String name);
 }

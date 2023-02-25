@@ -9,7 +9,6 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Getter
-@Setter
 public class User {
 
     @Id
@@ -17,15 +16,13 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    private String nickname;
     private String roles;
 
-    public static User createCommonUser(UserDto dto) {
+    public static User createUser(UserDto dto) {
         return new User(
                 dto.getId(),
                 dto.getUsername(),
                 dto.getPassword(),
-                dto.getNickname(),
                 dto.getRoles()
         );
     }

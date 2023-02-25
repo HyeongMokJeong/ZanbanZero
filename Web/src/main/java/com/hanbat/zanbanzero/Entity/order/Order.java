@@ -1,35 +1,49 @@
 package com.hanbat.zanbanzero.Entity.order;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hanbat.zanbanzero.Entity.user.User;
 import com.hanbat.zanbanzero.dto.order.OrderDto;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Map;
 
-@Document(collection = "order")
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 @ToString
+@Table(name = "orders")
 public class Order {
-    @Id
-    private String id;
-    private Long storeId;
-    private Long userId;
-    private Map<Long, Integer> menu;
-    private String date;
-    private Boolean payed;
 
-    public static Order createOrder(OrderDto orderDto) {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_menu_id")
+    @ToString.Exclude
+    private OrderMenu orderMenu;
+
+    private String updated;
+    private int payed;
+
+    public static Order createOrder(OrderDto dto, User user, OrderMenu orderMenu) {
         return new Order(
-                orderDto.getId(),
-                orderDto.getStoreId(),
-                orderDto.getUserId(),
-                orderDto.getMenu(),
-                orderDto.getDate(),
-                orderDto.getPayed()
+                dto.getId(),
+                user,
+                orderMenu,
+                dto.getUpdated(),
+                dto.getPayed()
         );
+    }
+
+    public void setPayed(int payed) {
+        this.payed = payed;
     }
 }

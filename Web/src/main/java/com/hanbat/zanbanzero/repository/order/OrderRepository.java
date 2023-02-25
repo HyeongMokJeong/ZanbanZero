@@ -1,14 +1,15 @@
 package com.hanbat.zanbanzero.repository.order;
 
 import com.hanbat.zanbanzero.Entity.order.Order;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface OrderRepository extends MongoRepository<Order, String> {
+public interface OrderRepository extends JpaRepository<Order, Long> {
+    Order findByUserId(long l);
 
-    public Optional<Order> findById(String id);
-
-    public List<Order> findByUserId(Long userId);
+    @Query("select o from Order o join fetch o.orderMenu where o.user.id = :id")
+    List<Order> getOrdres(@Param("id") Long id);
 }
