@@ -1,0 +1,37 @@
+package com.hanbat.zanbanzero.repository.user;
+
+import com.hanbat.zanbanzero.Entity.user.User;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class UserRepositoryTest {
+
+    @Autowired private UserRepository userRepository;
+
+    private String username = "test";
+    private final User user = new User(null, username, "1234", "ROLE_USER");
+
+    @BeforeEach
+    void setup() {
+        userRepository.save(user);
+    }
+
+    @Test
+    void doubleCheckUsername() {
+        assertEquals(userRepository.doubleCheckUsername(username), 1);
+        assertEquals(userRepository.doubleCheckUsername(username + "1234"), 0);
+    }
+
+    @Test
+    void findByUsername() {
+        User result = userRepository.findByUsername(username);
+        assertEquals(user.toString(), result.toString());
+    }
+}

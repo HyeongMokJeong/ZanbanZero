@@ -16,4 +16,6 @@ public interface MenuRepository extends JpaRepository<Menu, Long> {
                     "WHERE name = :name )",
             nativeQuery = true)
     Long doubleCheckMenuName(@Param("name") String name);
+
+    Menu findByName(@Param("name") String name);
 }

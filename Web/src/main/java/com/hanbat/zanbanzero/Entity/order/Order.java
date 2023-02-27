@@ -1,11 +1,11 @@
 package com.hanbat.zanbanzero.Entity.order;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanbat.zanbanzero.Entity.user.User;
 import com.hanbat.zanbanzero.dto.order.OrderDto;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
 
 
 @Entity

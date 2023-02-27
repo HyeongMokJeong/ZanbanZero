@@ -19,7 +19,7 @@ public class MenuApiController {
 
     @GetMapping("/api/user/menu")
     public ResponseEntity<List<MenuDto>> getMenu() {
-        List<MenuDto> menus = menuService.getMenu();
+        List<MenuDto> menus = menuService.getMenus();
         return ResponseEntity.status(HttpStatus.OK).body(menus);
     }
 

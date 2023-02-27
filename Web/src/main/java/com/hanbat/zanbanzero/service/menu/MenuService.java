@@ -18,7 +18,7 @@ public class MenuService {
 
     private final MenuRepository menuRepository;
 
-    public List<MenuDto> getMenu() {
+    public List<MenuDto> getMenus() {
         List<Menu> menus = menuRepository.findAll();
         List<MenuDto> result = new ArrayList<>();
         menus.forEach((menu) -> {

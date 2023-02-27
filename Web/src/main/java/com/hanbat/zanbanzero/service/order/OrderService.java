@@ -63,8 +63,6 @@ public class OrderService {
     }
 
     public List<OrderDto> getOrders(Long id) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
         List<Order> orders = orderRepository.getOrdres(id);
 
         return orders.stream()
