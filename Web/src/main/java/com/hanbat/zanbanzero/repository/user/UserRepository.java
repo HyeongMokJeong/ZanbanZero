@@ -1,7 +1,6 @@
 package com.hanbat.zanbanzero.repository.user;
 
-import com.hanbat.zanbanzero.Entity.user.User;
-import com.hanbat.zanbanzero.dto.info.UserInfoDto;
+import com.hanbat.zanbanzero.entity.user.User.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

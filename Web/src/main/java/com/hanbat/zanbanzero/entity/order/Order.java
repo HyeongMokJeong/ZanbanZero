@@ -1,11 +1,9 @@
-package com.hanbat.zanbanzero.Entity.order;
+package com.hanbat.zanbanzero.entity.order;
 
-import com.hanbat.zanbanzero.Entity.user.User;
+import com.hanbat.zanbanzero.entity.user.User.User;
 import com.hanbat.zanbanzero.dto.order.OrderDto;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.util.ArrayList;
 
 
 @Entity
@@ -21,29 +19,23 @@ public class Order {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @ToString.Exclude
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_menu_id")
-    @ToString.Exclude
-    private OrderMenu orderMenu;
-
     private String updated;
-    private int payed;
+    // 0 : 미승인, 1 : 승인, 2 : 취소
+    private int recognize;
 
-    public static Order createOrder(OrderDto dto, User user, OrderMenu orderMenu) {
+    public static Order createOrder(OrderDto dto, User user) {
         return new Order(
                 dto.getId(),
                 user,
-                orderMenu,
                 dto.getUpdated(),
-                dto.getPayed()
+                dto.getRecognize()
         );
     }
 
-    public void setPayed(int payed) {
-        this.payed = payed;
+    public void setRecognize(int update) {
+        recognize = update;
     }
 }

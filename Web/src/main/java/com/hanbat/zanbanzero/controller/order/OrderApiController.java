@@ -2,8 +2,7 @@ package com.hanbat.zanbanzero.controller.order;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hanbat.zanbanzero.dto.order.OrderDto;
-import com.hanbat.zanbanzero.dto.order.OrderMenuDto;
-import com.hanbat.zanbanzero.dto.user.UserDto;
+import com.hanbat.zanbanzero.dto.order.OrderDetailsDto;
 import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
 import com.hanbat.zanbanzero.exception.controller.exceptions.RequestDataisNull;
 import com.hanbat.zanbanzero.service.order.OrderService;
@@ -21,7 +20,7 @@ public class OrderApiController {
     private final OrderService orderService;
 
     @PostMapping("/api/user/{id}/order/add")
-    public ResponseEntity<String> addOrder(@RequestBody OrderMenuDto orderDto, @PathVariable Long id) throws RequestDataisNull, JsonProcessingException {
+    public ResponseEntity<String> addOrder(@RequestBody OrderDetailsDto orderDto, @PathVariable Long id) throws RequestDataisNull, JsonProcessingException {
         orderService.addOrder(orderDto, id);
         return ResponseEntity.status(HttpStatus.OK).body("등록되었습니다.");
     }
@@ -38,9 +37,9 @@ public class OrderApiController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @GetMapping("/api/user/order/details")
-    public ResponseEntity<OrderDto> getOrderDetails(@RequestBody OrderDto orderDto) throws CantFindByIdException {
-        OrderDto result = orderService.getOrderDetails(orderDto.getId());
+    @GetMapping("/api/user/order/{id}/details")
+    public ResponseEntity<OrderDetailsDto> getOrderDetails(@PathVariable Long id) throws CantFindByIdException, JsonProcessingException {
+        OrderDetailsDto result = orderService.getOrderDetails(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 }

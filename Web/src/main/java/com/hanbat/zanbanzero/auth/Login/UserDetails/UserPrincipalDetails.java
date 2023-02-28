@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.auth.Login.UserDetails;
 
-import com.hanbat.zanbanzero.Entity.user.User;
+import com.hanbat.zanbanzero.entity.user.User.User;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -54,7 +54,4 @@ public class UserPrincipalDetails implements UserDetails {
         return true;
     }
 
-    public String getRoles() {
-        return user.getRoles();
-    }
 }

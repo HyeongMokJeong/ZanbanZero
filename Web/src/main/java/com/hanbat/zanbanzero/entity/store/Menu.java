@@ -1,4 +1,4 @@
-package com.hanbat.zanbanzero.Entity.store;
+package com.hanbat.zanbanzero.entity.store;
 
 import com.hanbat.zanbanzero.dto.store.MenuDto;
 import jakarta.persistence.*;

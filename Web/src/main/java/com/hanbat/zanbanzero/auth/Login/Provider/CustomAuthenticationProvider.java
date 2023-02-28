@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.auth.Login.Provider;
 
-import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
+import com.hanbat.zanbanzero.auth.Login.UserDetailsService.ManagerPrincipalDetailsService;
 import com.hanbat.zanbanzero.auth.Login.UserDetailsService.UserPrincipalDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +19,9 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-public class UserAuthenticationProvider implements AuthenticationProvider {
+public class CustomAuthenticationProvider implements AuthenticationProvider {
 
+    private final ManagerPrincipalDetailsService managerPrincipalDetailsService;
     private final UserPrincipalDetailsService userPrincipalDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -27,15 +29,23 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
+        String uri = (String) authentication.getDetails();
 
-        UserPrincipalDetails principalDetails = userPrincipalDetailsService.loadUserByUsername(username);
+        UserDetails principalDetails = null;
+
+        if (uri.endsWith("/user")) {
+            principalDetails = userPrincipalDetailsService.loadUserByUsername(username);
+        }
+        else if (uri.endsWith("/manager")) {
+            principalDetails = managerPrincipalDetailsService.loadUserByUsername(username);
+        }
 
         if (password == null || !bCryptPasswordEncoder.matches(password, principalDetails.getPassword())) {
             throw new AuthenticationServiceException("인증 실패");
         }
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(principalDetails.getRoles().toString()));
+        authorities.add(new SimpleGrantedAuthority(principalDetails.getAuthorities().toString()));
 
         return new UsernamePasswordAuthenticationToken(principalDetails, password, authorities);
     }

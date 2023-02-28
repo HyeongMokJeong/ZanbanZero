@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.dto.store;
 
-import com.hanbat.zanbanzero.Entity.store.Menu;
+import com.hanbat.zanbanzero.entity.store.Menu;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

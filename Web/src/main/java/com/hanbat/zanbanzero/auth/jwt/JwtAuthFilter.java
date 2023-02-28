@@ -2,8 +2,8 @@ package com.hanbat.zanbanzero.auth.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.hanbat.zanbanzero.Entity.user.Manager;
-import com.hanbat.zanbanzero.Entity.user.User;
+import com.hanbat.zanbanzero.entity.user.Manager.Manager;
+import com.hanbat.zanbanzero.entity.user.User.User;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.ManagerPrincipalDetails;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
 import com.hanbat.zanbanzero.repository.user.ManagerRepository;
@@ -49,9 +49,10 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
         String jwtToken = jwtHeader.replace(JwtTemplate.TOKEN_PREFIX, "");
 
         String username = JWT.require(Algorithm.HMAC256(JwtTemplate.SECRET)).build().verify(jwtToken).getClaim("username").asString();
+        String roles = JWT.require(Algorithm.HMAC256(JwtTemplate.SECRET)).build().verify(jwtToken).getClaim("roles").asString();
 
         if (username != null) {
-            if (request.getRequestURI().startsWith("/api/user")) {
+            if (roles.equals("ROLE_USER")) {
                 User user = userRepository.findByUsername(username);
 
                 UserPrincipalDetails principalDetails = new UserPrincipalDetails(user);
@@ -63,7 +64,7 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
 
-            else if (request.getRequestURI().startsWith("/api/manager")) {
+            else if (roles.equals("ROLE_MANAGER")) {
                 Manager manager = managerRepository.findByUsername(username);
 
                 ManagerPrincipalDetails principalDetails = new ManagerPrincipalDetails(manager);

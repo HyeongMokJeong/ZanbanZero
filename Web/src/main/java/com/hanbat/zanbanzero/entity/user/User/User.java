@@ -1,4 +1,4 @@
-package com.hanbat.zanbanzero.Entity.user;
+package com.hanbat.zanbanzero.entity.user.User;
 
 import com.hanbat.zanbanzero.dto.user.UserDto;
 import jakarta.persistence.*;

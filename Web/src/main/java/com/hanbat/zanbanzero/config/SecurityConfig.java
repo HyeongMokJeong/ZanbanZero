@@ -37,12 +37,11 @@ public class SecurityConfig {
                 .formLogin().disable()
                 .httpBasic().disable()
                 .addFilterBefore(new ExceptionHandlerBeforeUsernamePassword(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new LonginFilter("/login/user", customAuthenticationManager), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(new LonginFilter("/login/manager", customAuthenticationManager), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new LonginFilter(customAuthenticationManager), UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(new ExceptionHandlerBeforeBasicAuthentication(), BasicAuthenticationFilter.class)
                 .addFilter(new JwtAuthFilter(customAuthenticationManager, userRepository, managerRepository))
                 .authorizeHttpRequests()
-                .requestMatchers("/api/user/**").hasAnyRole("USER", "MANAGER", "ADMIN")
+                .requestMatchers("/api/user/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/api/manager/**").hasAnyRole("MANAGER", "ADMIN")
                 .anyRequest().permitAll();
 

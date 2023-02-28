@@ -21,6 +21,7 @@ public class JwtUtil {
                     .withExpiresAt(new Date(System.currentTimeMillis() + JwtTemplate.EXPIRATION_TIME))
                     .withClaim("id", ((UserPrincipalDetails) userDetails).getUser().getId())
                     .withClaim("username", userDetails.getUsername())
+                    .withClaim("roles", "ROLE_USER")
                     .sign(Algorithm.HMAC256(JwtTemplate.SECRET));
         }
         else if (path.equals("/login/manager")) {
@@ -29,6 +30,7 @@ public class JwtUtil {
                     .withExpiresAt(new Date(System.currentTimeMillis() + JwtTemplate.EXPIRATION_TIME))
                     .withClaim("id", ((ManagerPrincipalDetails) userDetails).getManager().getId())
                     .withClaim("username", userDetails.getUsername())
+                    .withClaim("roles", "ROLE_MANAGER")
                     .sign(Algorithm.HMAC256(JwtTemplate.SECRET));
         }
         else {

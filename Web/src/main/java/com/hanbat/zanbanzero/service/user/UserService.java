@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.service.user;
 
-import com.hanbat.zanbanzero.Entity.user.User;
+import com.hanbat.zanbanzero.entity.user.User.User;
 import com.hanbat.zanbanzero.auth.jwt.JwtUtil;
 import com.hanbat.zanbanzero.dto.info.UserInfoDto;
 import com.hanbat.zanbanzero.dto.user.UserDto;

@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.service.menu;
 
-import com.hanbat.zanbanzero.Entity.store.Menu;
+import com.hanbat.zanbanzero.entity.store.Menu;
 import com.hanbat.zanbanzero.dto.store.MenuDto;
 import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
 import com.hanbat.zanbanzero.exception.controller.exceptions.SameNameException;

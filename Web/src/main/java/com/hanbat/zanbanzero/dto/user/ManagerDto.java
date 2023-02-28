@@ -1,7 +1,6 @@
 package com.hanbat.zanbanzero.dto.user;
 
-import com.hanbat.zanbanzero.Entity.user.Manager;
-import com.hanbat.zanbanzero.Entity.user.User;
+import com.hanbat.zanbanzero.entity.user.Manager.Manager;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
