@@ -26,7 +26,7 @@ public class OrderDetails {
     private String menu;
     private int payment;
 
-    public static OrderDetails createOrderMenu(OrderDetailsDto dto, Order order) throws JsonProcessingException {
+    public static OrderDetails createOrderDetails(OrderDetailsDto dto, Order order) throws JsonProcessingException {
         return new OrderDetails(
                 dto.getId(),
                 order,

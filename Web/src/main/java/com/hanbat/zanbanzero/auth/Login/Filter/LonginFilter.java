@@ -1,8 +1,8 @@
 package com.hanbat.zanbanzero.auth.Login.Filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.hanbat.zanbanzero.entity.user.Manager.Manager;
-import com.hanbat.zanbanzero.entity.user.User.User;
+import com.hanbat.zanbanzero.entity.user.manager.Manager;
+import com.hanbat.zanbanzero.entity.user.user.User;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.ManagerPrincipalDetails;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
 import com.hanbat.zanbanzero.auth.jwt.JwtUtil;

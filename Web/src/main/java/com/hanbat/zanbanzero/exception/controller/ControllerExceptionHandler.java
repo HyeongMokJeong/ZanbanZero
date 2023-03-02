@@ -38,7 +38,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(CantFindByIdException.class)
     public final ResponseEntity<Object> cantFindById(Exception ex, WebRequest request){
         status = HttpStatus.INTERNAL_SERVER_ERROR;
-        ExceptionTemplate exceptionResponse = new ExceptionTemplate(new Date().toString(), ex.getMessage(), ((ServletWebRequest)request).getRequest().getRequestURI(), status.value());
+        ExceptionTemplate exceptionResponse = new ExceptionTemplate(new Date().toString(), "잘못된 id 입니다.", ((ServletWebRequest)request).getRequest().getRequestURI(), status.value());
         return new ResponseEntity(exceptionResponse, status);
     }
 

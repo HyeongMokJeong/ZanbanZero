@@ -2,8 +2,8 @@ package com.hanbat.zanbanzero.auth.jwt;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.hanbat.zanbanzero.entity.user.Manager.Manager;
-import com.hanbat.zanbanzero.entity.user.User.User;
+import com.hanbat.zanbanzero.entity.user.manager.Manager;
+import com.hanbat.zanbanzero.entity.user.user.User;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.ManagerPrincipalDetails;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
 import com.hanbat.zanbanzero.repository.user.ManagerRepository;
@@ -35,7 +35,6 @@ public class JwtAuthFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
         String jwtHeader = request.getHeader(JwtTemplate.HEADER_STRING);
-
         // JWT(Header)가 있는지 확인
         if ((jwtHeader == null || !jwtHeader.startsWith(JwtTemplate.TOKEN_PREFIX))) {
             if (request.getRequestURI().equals("/join") || request.getRequestURI().equals("/login/user") || request.getRequestURI().equals("/login/manager")){

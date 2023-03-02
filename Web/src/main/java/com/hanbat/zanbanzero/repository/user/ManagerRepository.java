@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.repository.user;
 
-import com.hanbat.zanbanzero.entity.user.Manager.Manager;
+import com.hanbat.zanbanzero.entity.user.manager.Manager;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.query.Param;
 

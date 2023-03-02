@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.entity.order;
 
-import com.hanbat.zanbanzero.entity.user.User.User;
+import com.hanbat.zanbanzero.entity.user.user.User;
 import com.hanbat.zanbanzero.dto.order.OrderDto;
 import jakarta.persistence.*;
 import lombok.*;

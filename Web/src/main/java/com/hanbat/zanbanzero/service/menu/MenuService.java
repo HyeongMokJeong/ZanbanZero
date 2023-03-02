@@ -6,7 +6,6 @@ import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdExcepti
 import com.hanbat.zanbanzero.exception.controller.exceptions.SameNameException;
 import com.hanbat.zanbanzero.repository.menu.MenuRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -28,42 +27,30 @@ public class MenuService {
     }
 
     public MenuDto getMenuInfo(Long id) throws CantFindByIdException {
-        Menu menu = menuRepository.findById(id).orElse(null);
-        if (menu == null) {
-            throw new CantFindByIdException("잘못된 id 입니다.");
-        }
+        Menu menu = menuRepository.findById(id).orElseThrow(CantFindByIdException::new);
+
         return MenuDto.createMenuDto(menu);
     }
 
-    public void addMenu(MenuDto dto) throws SameNameException, CantFindByIdException {
+    public void addMenu(MenuDto dto) throws SameNameException {
         if (menuRepository.doubleCheckMenuName(dto.getName()) == 1) {
             throw new SameNameException("데이터 중복입니다.");
         }
         Menu menu = Menu.createMenu(dto);
 
-        try {
-            menuRepository.save(menu);
-        }
-        catch (DataIntegrityViolationException e) {
-            throw new CantFindByIdException("잘못된 id 입니다.");
-        }
+        menuRepository.save(menu);
+
     }
 
     public void updateMenu(MenuDto dto, Long id) throws CantFindByIdException {
-        Menu menu = menuRepository.findById(id).orElse(null);
-        if (menu == null) {
-            throw new CantFindByIdException("잘못된 id 입니다.");
-        }
+        Menu menu = menuRepository.findById(id).orElseThrow(CantFindByIdException::new);
 
         menu.patch(dto);
         menuRepository.save(menu);
     }
 
     public void deleteMenu(Long id) throws CantFindByIdException {
-        Menu menu = menuRepository.findById(id).orElse(null);
-        if (menu == null) {
-            throw new CantFindByIdException("잘못된 id 입니다.");
-        }
+        Menu menu = menuRepository.findById(id).orElseThrow(CantFindByIdException::new);
 
         menuRepository.delete(menu);
     }

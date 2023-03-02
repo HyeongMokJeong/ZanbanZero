@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -46,16 +47,14 @@ public class OrderService {
         Order order = Order.createOrder(orderDto, userRepository.getReferenceById(id));
         orderRepository.save(order);
 
-        OrderDetails orderDetails = OrderDetails.createOrderMenu(dto, order);
+        OrderDetails orderDetails = OrderDetails.createOrderDetails(dto, order);
         orderDetailsRepository.save(orderDetails);
     }
 
     @Transactional
     public void deleteOrder(Long id) throws CantFindByIdException {
-        Order order = orderRepository.findById(id).orElse(null);
-        if (order == null) {
-            throw new CantFindByIdException("잘못된 id 입니다.");
-        }
+        Order order = orderRepository.findById(id).orElseThrow(CantFindByIdException::new);
+
         order.setRecognize(2);
         orderRepository.save(order);
     }
@@ -75,10 +74,7 @@ public class OrderService {
     }
 
     public OrderDetailsDto getOrderDetails(Long id) throws CantFindByIdException, JsonProcessingException {
-        OrderDetails orderDetails = orderDetailsRepository.getOrderDetails(id);
-        if (orderDetails == null) {
-            throw new CantFindByIdException("잘못된 id 입니다.");
-        }
+        OrderDetails orderDetails = orderDetailsRepository.getOrderDetails(id).orElseThrow(CantFindByIdException::new);
 
         OrderDetailsDto result = OrderDetailsDto.createOrderMenuDto(orderDetails);
 

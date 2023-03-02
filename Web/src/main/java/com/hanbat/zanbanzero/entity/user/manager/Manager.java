@@ -1,6 +1,6 @@
-package com.hanbat.zanbanzero.entity.user.Manager;
+package com.hanbat.zanbanzero.entity.user.manager;
 
-import com.hanbat.zanbanzero.dto.user.ManagerDto;
+import com.hanbat.zanbanzero.dto.user.manager.ManagerDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

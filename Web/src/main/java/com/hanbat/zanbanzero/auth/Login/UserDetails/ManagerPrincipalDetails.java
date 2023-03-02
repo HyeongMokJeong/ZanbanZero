@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.auth.Login.UserDetails;
 
-import com.hanbat.zanbanzero.entity.user.Manager.Manager;
+import com.hanbat.zanbanzero.entity.user.manager.Manager;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
