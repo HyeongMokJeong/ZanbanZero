@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.controller.user;
 
-import com.hanbat.zanbanzero.dto.info.ManagerInfoDto;
+import com.hanbat.zanbanzero.dto.user.info.ManagerInfoDto;
 import com.hanbat.zanbanzero.dto.user.manager.ManagerDto;
 import com.hanbat.zanbanzero.exception.controller.exceptions.JwtException;
 import com.hanbat.zanbanzero.service.user.ManagerService;

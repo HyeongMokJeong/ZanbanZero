@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanbat.zanbanzero.dto.user.user.UserMyPageDto;
 import com.hanbat.zanbanzero.entity.user.user.User;
 import com.hanbat.zanbanzero.auth.jwt.JwtUtil;
-import com.hanbat.zanbanzero.dto.info.UserInfoDto;
+import com.hanbat.zanbanzero.dto.user.info.UserInfoDto;
 import com.hanbat.zanbanzero.dto.user.user.UserDto;
 import com.hanbat.zanbanzero.entity.user.user.UserMyPage;
 import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
@@ -18,7 +18,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -31,16 +30,14 @@ public class UserService {
     private final JwtUtil jwtUtil;
 
     public int join(UserDto dto) throws JsonProcessingException {
-        if (userRepository.doubleCheckUsername(dto.getUsername()) == 1)
+        if (userRepository.existsByUsername(dto.getUsername()))
             return 0;
-        dto.setPassword(bCryptPasswordEncoder.encode(dto.getPassword()));
-        dto.setRoles("ROLE_USER");
+        dto.setEncodePassword(bCryptPasswordEncoder);
 
         User target = User.createUser(dto);
         User user = userRepository.save(target);
 
-        Map<Integer, String> first_coupon = Map.of(1, "신규가입 환영 쿠폰");
-        UserMyPage userMyPage = new UserMyPage(user.getId(), user, new ObjectMapper().writeValueAsString(first_coupon), 0);
+        UserMyPage userMyPage = UserMyPage.createNewUserMyPage(user);
         userMyPageRepository.save(userMyPage);
 
         return 1;

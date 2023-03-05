@@ -24,12 +24,6 @@ class UserRepositoryTest {
     }
 
     @Test
-    void doubleCheckUsername() {
-        assertEquals(userRepository.doubleCheckUsername(username), 1);
-        assertEquals(userRepository.doubleCheckUsername(username + "1234"), 0);
-    }
-
-    @Test
     void findByUsername() {
         User result = userRepository.findByUsername(username);
         assertEquals(user.toString(), result.toString());

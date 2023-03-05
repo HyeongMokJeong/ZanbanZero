@@ -4,6 +4,7 @@ import com.hanbat.zanbanzero.entity.user.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -12,7 +13,7 @@ public class UserDto {
     private Long id;
     private String username;
     private String password;
-    private String roles;
+    private String roles = "ROLE_USER";
 
     public static UserDto createCommonUserDto(User user) {
         return new UserDto(
@@ -21,5 +22,9 @@ public class UserDto {
                 user.getPassword(),
                 user.getRoles()
         );
+    }
+
+    public void setEncodePassword(BCryptPasswordEncoder bCryptPasswordEncoder) {
+        password = bCryptPasswordEncoder.encode(password);
     }
 }

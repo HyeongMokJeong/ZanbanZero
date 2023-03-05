@@ -1,7 +1,7 @@
 package com.hanbat.zanbanzero.controller.user;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.hanbat.zanbanzero.dto.info.UserInfoDto;
+import com.hanbat.zanbanzero.dto.user.info.UserInfoDto;
 import com.hanbat.zanbanzero.dto.user.user.UserDto;
 import com.hanbat.zanbanzero.dto.user.user.UserMyPageDto;
 import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;

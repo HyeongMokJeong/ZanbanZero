@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.service.menu;
 
-import com.hanbat.zanbanzero.entity.store.Menu;
+import com.hanbat.zanbanzero.entity.menu.Menu;
 import com.hanbat.zanbanzero.repository.menu.MenuRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;

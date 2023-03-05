@@ -1,6 +1,6 @@
-package com.hanbat.zanbanzero.entity.store;
+package com.hanbat.zanbanzero.entity.menu;
 
-import com.hanbat.zanbanzero.dto.store.MenuDto;
+import com.hanbat.zanbanzero.dto.menu.MenuDto;
 import jakarta.persistence.*;
 import lombok.*;
 

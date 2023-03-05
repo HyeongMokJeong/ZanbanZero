@@ -33,9 +33,7 @@ public class OrderService {
     @Transactional
     public void addOrder(OrderDetailsDto dto, Long id) throws RequestDataisNull, JsonProcessingException {
         if (dto.getMenu() == null) {
-            List<String> nullList = new ArrayList<>();
-            nullList.add("Menu");
-            throw new RequestDataisNull("데이터가 부족합니다. - " + nullList);
+            throw new RequestDataisNull("데이터가 부족합니다.");
         }
 
         OrderDto orderDto = OrderDto.builder()
@@ -55,8 +53,7 @@ public class OrderService {
     public void deleteOrder(Long id) throws CantFindByIdException {
         Order order = orderRepository.findById(id).orElseThrow(CantFindByIdException::new);
 
-        order.setRecognize(2);
-        orderRepository.save(order);
+        order.setRecognizeToCancel();
     }
 
     public List<OrderDto> getOrders(Long id) {
@@ -76,8 +73,6 @@ public class OrderService {
     public OrderDetailsDto getOrderDetails(Long id) throws CantFindByIdException, JsonProcessingException {
         OrderDetails orderDetails = orderDetailsRepository.getOrderDetails(id).orElseThrow(CantFindByIdException::new);
 
-        OrderDetailsDto result = OrderDetailsDto.createOrderMenuDto(orderDetails);
-
-        return result;
+        return OrderDetailsDto.createOrderMenuDto(orderDetails);
     }
 }

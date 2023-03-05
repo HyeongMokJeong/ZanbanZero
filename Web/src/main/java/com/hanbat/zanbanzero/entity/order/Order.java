@@ -35,7 +35,7 @@ public class Order {
         );
     }
 
-    public void setRecognize(int update) {
-        recognize = update;
+    public void setRecognizeToCancel() {
+        recognize = 2;
     }
 }

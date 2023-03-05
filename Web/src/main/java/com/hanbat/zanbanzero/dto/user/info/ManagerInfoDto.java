@@ -1,4 +1,4 @@
-package com.hanbat.zanbanzero.dto.info;
+package com.hanbat.zanbanzero.dto.user.info;
 
 import com.hanbat.zanbanzero.entity.user.manager.Manager;
 import lombok.AllArgsConstructor;

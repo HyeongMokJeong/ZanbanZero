@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.controller.menu;
 
-import com.hanbat.zanbanzero.dto.store.MenuDto;
+import com.hanbat.zanbanzero.dto.menu.MenuDto;
 import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
 import com.hanbat.zanbanzero.exception.controller.exceptions.SameNameException;
 import com.hanbat.zanbanzero.service.menu.MenuService;
@@ -41,7 +41,7 @@ public class MenuApiController {
         return ResponseEntity.status(HttpStatus.OK).body("수정되었습니다.");
     }
 
-    @DeleteMapping("/api/manager/menu/{id}/delete")
+    @DeleteMapping("/api/manager/menu/{id}/del")
     public ResponseEntity<String> deleteMenu(@PathVariable Long id) throws CantFindByIdException {
         menuService.deleteMenu(id);
         return ResponseEntity.status(HttpStatus.OK).body("삭제되었습니다.");

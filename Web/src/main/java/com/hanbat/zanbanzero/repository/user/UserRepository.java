@@ -7,13 +7,13 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query(value =
-            "SELECT EXISTS(" +
-                    "SELECT * " +
-                    "FROM user " +
-                    "WHERE username = :username)",
-        nativeQuery = true)
-    Long doubleCheckUsername(@Param("username") String username);
+//    @Query(value =
+//            "SELECT EXISTS(" +
+//                    "SELECT * " +
+//                    "FROM user " +
+//                    "WHERE username = :username)",
+//        nativeQuery = true)
+    Boolean existsByUsername(String username);
 
     User findByUsername(@Param("username") String username);
 
