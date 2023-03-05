@@ -1,6 +1,6 @@
 package com.hanbat.zanbanzero.auth.Login.UserDetailsService;
 
-import com.hanbat.zanbanzero.Entity.user.User;
+import com.hanbat.zanbanzero.entity.user.user.User;
 import com.hanbat.zanbanzero.auth.Login.UserDetails.UserPrincipalDetails;
 import com.hanbat.zanbanzero.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;

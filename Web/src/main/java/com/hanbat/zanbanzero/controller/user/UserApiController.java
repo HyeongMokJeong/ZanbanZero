@@ -1,8 +1,10 @@
 package com.hanbat.zanbanzero.controller.user;
 
-import com.hanbat.zanbanzero.Entity.user.User;
-import com.hanbat.zanbanzero.dto.info.UserInfoDto;
-import com.hanbat.zanbanzero.dto.user.UserDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.hanbat.zanbanzero.dto.user.info.UserInfoDto;
+import com.hanbat.zanbanzero.dto.user.user.UserDto;
+import com.hanbat.zanbanzero.dto.user.user.UserMyPageDto;
+import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
 import com.hanbat.zanbanzero.exception.controller.exceptions.JwtException;
 import com.hanbat.zanbanzero.exception.filter.ExceptionTemplate;
 import com.hanbat.zanbanzero.exception.controller.exceptions.SameNameException;
@@ -19,7 +21,7 @@ public class UserApiController {
     private final UserService userService;
 
     @PostMapping("/join")
-    public ResponseEntity<String> join(@RequestBody UserDto dto) throws SameNameException {
+    public ResponseEntity<String> join(@RequestBody UserDto dto) throws SameNameException, JsonProcessingException {
         int result = userService.join(dto);
         if (result == 0) {
             throw new SameNameException("중복된 아이디입니다.");
@@ -36,6 +38,13 @@ public class UserApiController {
     public ResponseEntity<UserInfoDto> getInfo(@RequestBody UserDto dto, @RequestHeader("Authorization") String token) throws JwtException {
         UserInfoDto user = userService.getInfo(dto, token);
         return ResponseEntity.status(HttpStatus.OK).body(user);
+    }
+
+    @GetMapping("/api/user/{id}/page")
+    public ResponseEntity<UserMyPageDto> getMyPage(@PathVariable Long id) throws CantFindByIdException, JsonProcessingException {
+        UserMyPageDto userMyPageDto = userService.getMyPage(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(userMyPageDto);
     }
 
 }

@@ -1,46 +1,46 @@
-//package com.hanbat.zanbanzero.controller.store;
-//
-//import com.hanbat.zanbanzero.dto.store.StoreDto;
-//import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
-//import com.hanbat.zanbanzero.service.store.StoreService;
-//import lombok.RequiredArgsConstructor;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import java.util.List;
-//
-//@RequiredArgsConstructor
-//@RestController
-//public class StoreApiController {
-//
-//    private final StoreService storeService;
-//
-//    @GetMapping("/api/user/stores")
-//    public ResponseEntity<List<StoreDto>> getAllStoresList() {
-//        List<StoreDto> storeDtos = storeService.getAllStoresList();
-//        return ResponseEntity.status(HttpStatus.OK).body(storeDtos);
-//    }
-//
-//    @GetMapping("/api/user/store/location/{id}")
-//    public ResponseEntity<List<StoreDto>> getStoresToLocation(@PathVariable Long id) {
-//        List<StoreDto> storeDto = storeService.getStoresToLocation(id);
-//        return ResponseEntity.status(HttpStatus.OK).body(storeDto);
-//    }
-//
-//    @GetMapping("/api/user/store/{id}")
-//    public ResponseEntity<StoreDto> getStoresByStoreId(@PathVariable Long id) throws CantFindByIdException {
-//        StoreDto storeDto = storeService.getStoresToStoreId(id);
-//        if (storeDto == null) {
-//            throw new CantFindByIdException("잘못된 id 입니다.");
-//        }
-//        return ResponseEntity.status(HttpStatus.OK).body(storeDto);
-//    }
-//
-//    @GetMapping("/api/manager/{id}/stores")
-//    public ResponseEntity<List<StoreDto>> getStoresByManagerId(@PathVariable Long id) {
-//        List<StoreDto> stores = storeService.getStoresByManagerId(id);
-//        return ResponseEntity.status(HttpStatus.OK).body(stores);
-//    }
-//
-//}
+package com.hanbat.zanbanzero.controller.store;
+
+import com.hanbat.zanbanzero.dto.store.StoreDto;
+import com.hanbat.zanbanzero.dto.store.StoreStateDto;
+import com.hanbat.zanbanzero.entity.store.Store;
+import com.hanbat.zanbanzero.exception.controller.exceptions.CantFindByIdException;
+import com.hanbat.zanbanzero.exception.controller.exceptions.RequestDataisNull;
+import com.hanbat.zanbanzero.service.store.StoreService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RequiredArgsConstructor
+@RestController
+public class StoreApiController {
+
+    private final StoreService storeService;
+
+    @PostMapping("/api/manager/store/set/location")
+    public ResponseEntity<String> setLocation(@RequestBody StoreDto storeDto) throws CantFindByIdException, RequestDataisNull {
+        storeService.setLocation(storeDto.getLat(), storeDto.getLon());
+        return ResponseEntity.status(HttpStatus.OK).body("수정되었습니다.");
+    }
+
+    @GetMapping("/api/manager/store/location")
+    public ResponseEntity<Map<String, Long>> getLocation() throws CantFindByIdException {
+        Map<String, Long> result = storeService.getLocation();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @PostMapping("/api/manager/store/set/congestion")
+    public ResponseEntity<String> setCongestion(@RequestBody StoreStateDto storeStateDto) throws CantFindByIdException {
+        storeService.setCongestion(storeStateDto);
+        return ResponseEntity.status(HttpStatus.OK).body("수정되었습니다.");
+    }
+
+    @GetMapping("/api/manager/store/congestion")
+    public ResponseEntity<Long> getCongestion() throws CantFindByIdException {
+        Long result = storeService.getCongestion();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+}

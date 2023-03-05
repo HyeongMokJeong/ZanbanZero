@@ -1,34 +1,30 @@
 package com.hanbat.zanbanzero.service.order;
 
-import lombok.extern.slf4j.Slf4j;
+import com.hanbat.zanbanzero.repository.order.OrderDetailsRepository;
+import com.hanbat.zanbanzero.repository.order.OrderRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.util.StopWatch;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-@Slf4j
+@Transactional
 class OrderServiceTest {
 
-    @Test
-    void addOrder() {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
+    @Autowired
+    private OrderRepository orderRepository;
+    @Autowired
+    OrderDetailsRepository orderDetailsRepository;
 
-        stopWatch.stop();
-        log.info("총 수행 시간 => {} sec", stopWatch.getTotalTimeSeconds());
-    }
-
-    @Test
-    void deleteOrder() {
+    @BeforeEach
+    void setup() {
+//        orderMenuRepository.save(orderDetails);
+//        orderRepository.save(order);
     }
 
     @Test
     void getOrders() {
-    }
-
-    @Test
-    void getOrderDetails() {
+        
     }
 }
